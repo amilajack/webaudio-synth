@@ -6,7 +6,7 @@ export default class VCO {
 
 		this.context = context;
 		this.oscillator = this.context.createOscillator();
-		this.oscillator.type = 'sine';
+		this.oscillator.type = 'sawtooth';
 		this.setFrequency(440);
 		this.oscillator.start(0);
 
@@ -17,32 +17,35 @@ export default class VCO {
 	}
 
 	init = () => {
-		// creating container
-		const vcoDOM = document.createElement('div');
-		vcoDOM.className = 'vco';
-
-		// creating knob controls
-		const input = document.createElement('input');
-		input.id = 'vco__freq';
-		input.value = 220; // default freq [temp]
-		
-		vcoDOM.appendChild(input);
-		document.getElementById('app').appendChild(vcoDOM);
 
 		// init knob plugin
 		$('#vco__freq').knob({
 			'min':			20,
 			'max':			880,
-			'width': 		'45%',
-			'bgColor':		'#555555',
-			'fgColor':		'#C0ffff',
-			'skin':			'tron',
+			'width': 		'70%',
+			'bgColor':		'#c0ffff',
+			'fgColor':		'#e5007c',
 			'thickness': 	.2,
 			'angleOffset': 	-125,
 			'angleArc':		250,
 			'font':			'Orbitron',
 			'cursor':		20,
 			'change': freq => this.setFrequency(freq)
+		});
+
+		$('#vco__detune').knob({
+			'min':			-200,
+			'max':			200,
+			'width': 		'50%',
+			'bgColor':		'#c0ffff',
+			'fgColor':		'#e5007c',
+			'thickness': 	.3,
+			'angleOffset': 	-90,
+			'angleArc':		250,
+			'font':			'Orbitron',
+			'cursor':		40,
+			'displayInput': false,
+			'change': value => this.setDetune(value)
 		});
 	}
 
@@ -52,6 +55,10 @@ export default class VCO {
 
 	setFrequency = frequency => {
 		this.oscillator.frequency.setValueAtTime(frequency, this.context.currentTime);
+	}
+
+	setDetune = value => {
+		this.oscillator.detune.setValueAtTime(value, this.context.currentTime);
 	}
 
 	connect = node => {

@@ -5,9 +5,40 @@
 body
 	// background-color: $color-bg
 	background-color: #111
-	font-family 'Orbitron', sans-serif !important
+	background-image url('/images/bg.gif')
+	color: $color-primary
+	font-family: $font-family-default
 
 
-#app
-	margin 50px auto
-	width 300px
+#synth
+	position absolute
+	top 0
+	left 10%
+	bottom 0
+	margin auto
+	width 50vw
+	height 50vh
+	padding 5px
+	display flex
+	justify-content flex-start
+	background-color: rgba(38, 39, 47, .75)
+	box-shadow: 1px 1px 0px $color-primary
+	border: 2px solid $color-primary
+	.module
+		position relative
+		flex 0 1 20%
+		display flex
+		flex-direction column
+		justify-content center
+		align-items center
+		margin-right 5px
+		border: 1px dashed $color-primary
+		h2
+			position absolute
+			top 5px
+			left 0
+			right 0
+			margin auto
+			text-align center
+			text-transform uppercase
+			letter-spacing 1px

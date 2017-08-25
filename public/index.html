@@ -6,12 +6,25 @@
 	<meta http-equiv='X-UA-Compatible' content='ie=edge'>
 	<title>WebAudio Synth</title>
 
-	<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
-	<link rel="stylesheet" href="styles.css">
+	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
+	<link rel='stylesheet' href='styles.css'>
 </head>
 <body>
 
-	<div id="app"></div>
+	<div id='synth'>
+		<div class='vco module'>
+			<h2>vco</h2>
+			<input type='text' id='vco__freq' value='220'>
+			<input type='text' id='vco__detune' value='0'>
+		</div>
+		<div class='vcf module'>
+			<h2>vcf</h2>
+			<input type='text' id='vcf__freq' value='880'>
+			<input type='text' id='vcf__q' value='1'>
+		</div>
+	</div>
+
+	<div id="keyboard"></div>
 
 	<script src='bundle.js'></script>
 
