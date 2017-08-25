@@ -20,7 +20,7 @@ export default class VCF {
 
 		// init knob plugin
 		$('#vcf__freq').knob({
-			'min':			20,
+			min:			20,
 			'max':			880,
 			'width': 		'60%',
 			'bgColor':		'#c0ffff',
