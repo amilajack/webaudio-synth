@@ -13,19 +13,29 @@
 
 	<div id='synth'>
 		<div class='vco module'>
-			<h2>vco</h2>
-			<input type='text' id='vco__freq' value='220'>
-			<input type='text' id='vco__detune' value='0'>
+			<h2>VCO</h2>
+			<div class="osc-group">
+				<div class="knob-wrapper" data-label='freq'>
+					<input type='text' id='vco__freq' value='220'>
+				</div>
+				<div class="knob-wrapper">
+					<input type='text' id='vco__detune' value='0'>
+				</div>
+			</div>
 		</div>
+	
 		<div class='vcf module'>
-			<h2>vcf</h2>
-			<input type='text' id='vcf__freq' value='880'>
-			<input type='text' id='vcf__q' value='1'>
-			<input type='text' id='some' value='50'>
+			<h2>VCF</h2>
+			<div class="knob-wrapper" data-label='freq'>
+				<input type='text' id='vcf__freq' value='880'>
+			</div>
+			<div class="knob-wrapper" data-label='qual'>
+				<input type='text' id='vcf__q' value='1'>
+			</div>
 		</div>
 	</div>
 
-	<!-- <div id="keyboard"></div> -->
+	<div id="keyboard"></div>
 
 	<script src='bundle.js'></script>
 

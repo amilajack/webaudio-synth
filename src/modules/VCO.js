@@ -1,4 +1,4 @@
-import knob from 'jquery-knob';
+import Knob from './Knob';
 
 
 export default class VCO {
@@ -8,57 +8,68 @@ export default class VCO {
 		this.oscillator = this.context.createOscillator();
 		this.oscillator.type = 'sawtooth';
 		this.setFrequency(440);
-		this.oscillator.start(0);
+		this.oscillator.start();
+		
+		this.gainNode = this.context.createGain();
+		this.gainNode.gain.value = 0; // default is muted
 
 		this.input = this.oscillator;
-		this.output = this.oscillator;
+		this.output = this.oscillator.connect(this.gainNode);
 
 		this.init();
 	}
 
 	init = () => {
 
-		// init knob plugin
-		$('#vco__freq').knob({
-			'min':			20,
-			'max':			880,
-			'width': 		'70%',
-			'bgColor':		'#c0ffff',
-			'fgColor':		'#e5007c',
-			'thickness': 	.2,
-			'angleOffset': 	-125,
-			'angleArc':		250,
-			'font':			'Orbitron',
-			'cursor':		20,
-			'change': freq => this.setFrequency(freq)
-		});
+		const vcoFreqKnob = new Knob(
+			'vco__freq',
+			{
+				min:			20,
+				max:			880,
+				width: 			'60%',
+				displayInput: 	true,
+				change: 		freq => this.setFrequency(freq)
+			}
+		);
 
-		$('#vco__detune').knob({
-			'min':			-200,
-			'max':			200,
-			'width': 		'50%',
-			'bgColor':		'#c0ffff',
-			'fgColor':		'#e5007c',
-			'thickness': 	.3,
-			'angleOffset': 	-90,
-			'angleArc':		250,
-			'font':			'Orbitron',
-			'cursor':		40,
-			'displayInput': false,
-			'change': value => this.setDetune(value)
-		});
+		const vcoDetuneKnob = new Knob(
+			'vco__detune',
+			{
+				min:			-200,
+				max:			200,
+				width:			'50%',
+				thickness: 		.3,
+				angleOffset: 	-80,
+				cursor:			40,
+				change: 		value => this.setDetune(value)
+			}
+		);
 	}
 
 	setWaveType = waveType => {
 		this.oscillator.type = waveType;
 	}
 
-	setFrequency = frequency => {
-		this.oscillator.frequency.setValueAtTime(frequency, this.context.currentTime);
+	setFrequency = freq => {
+		if(isFinite(freq)) {
+			this.oscillator.frequency.setValueAtTime(freq, this.context.currentTime);
+		}
 	}
 
 	setDetune = value => {
 		this.oscillator.detune.setValueAtTime(value, this.context.currentTime);
+	}
+
+	play = (note, freq) => {
+		this.lastNote = note;
+		this.setFrequency(freq);
+		this.gainNode.gain.value = 1;
+	}
+
+	stop = (note, freq) => {
+		if (note === this.lastNote) {
+			this.gainNode.gain.value = 0;
+		}
 	}
 
 	connect = node => {

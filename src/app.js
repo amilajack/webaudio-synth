@@ -1,10 +1,9 @@
 import './styles/main.styl';
 
-import QwertyHancock from 'qwerty-hancock';
-
 import Knob from './modules/Knob';
 import VCO from './modules/VCO';
 import VCF from './modules/VCF';
+import Keyboard from './modules/Keyboard';
 
 
 let context;
@@ -20,22 +19,14 @@ catch (e) {
 
 const vco = new VCO(context);
 const vcf = new VCF(context);
-
-const someKnob = new Knob('some', {width: '50%'}, () => console.log('hello u!'));
-console.log(someKnob);
-
 const gainNode = context.createGain();
+
+const keyboard = new Keyboard(null, vco.play, vco.stop);
+
 
 
 vco.connect(vcf);
 vcf.connect(gainNode);
-// gainNode.connect(context.destination);
+gainNode.connect(context.destination);
+
 // vco -> gainNode -> browser output
-
-
-// var keyboard = new QwertyHancock({
-// 	id: 'keyboard',
-// 	width: 600,
-// 	height: 150,
-// 	octaves: 2
-// });

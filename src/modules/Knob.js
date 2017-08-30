@@ -1,23 +1,25 @@
 import knob from 'jquery-knob';
+import { colors } from './colors';
 
 
 export default class Knob {
-	constructor(id, options, callback) {
+	constructor(id, options) {
 		
 		this.defaultOptions = {
 			min:			1,
 			max:			100,
 			step:			1,
 			width: 			'50%',
-			bgColor:		'#c0ffff',
-			fgColor:		'#e5007c',
+			bgColor:		colors.primary,
+			fgColor:		colors.accent,
 			thickness: 		.2,
 			angleOffset: 	-125,
 			angleArc:		250,
-			displayInput:	true,
+			displayInput:	false,
 			font:			'Orbitron',
 			cursor:			20,
-			change: 		value => console.log(`${this.id}: ${value}`)
+			change: 		value => console.log(`${this.id}: ${value}`),
+			draw:			() => {}
 		};
 
 		this.id = id || `new-knob-${~~(Math.random()* 100)}`;
@@ -39,8 +41,6 @@ export default class Knob {
 			document.body.appendChild(input);
 		}
 
-		console.log(knob);
-
 		$('#' + this.id).knob(this.options);
 	}
-}
+};
