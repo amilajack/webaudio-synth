@@ -7,35 +7,55 @@
 	<title>WebAudio Synth</title>
 
 	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
-	<link rel='stylesheet' href='styles.css'>
+	<!-- <link rel='stylesheet' href='styles.css'> -->
 </head>
 <body>
 
 	<div id='synth'>
 		<div class='vco module'>
 			<h2>VCO</h2>
-			<div class="osc-group">
-				<div class="knob-wrapper" data-label='freq'>
-					<input type='text' id='vco__freq' value='220'>
+
+			<div class='osc' id='osc1'>
+				<div class='knob-wrapper' data-label='gain'>
+					<input type='text' id='osc1__gain'>
 				</div>
-				<div class="knob-wrapper">
-					<input type='text' id='vco__detune' value='0'>
+				<div class='knob-wrapper'>
+					<input type='text' id='osc1__detune'>
 				</div>
 			</div>
-		</div>
+
+			<div class='osc' id='osc2'>
+				<div class='knob-wrapper' data-label='gain'>
+					<input type='text' id='osc2__gain'>
+				</div>
+				<div class='knob-wrapper'>
+					<input type='text' id='osc2__detune'>
+				</div>
+			</div>
+
+			<div class='osc' id='osc3'>
+				<div class='knob-wrapper' data-label='gain'>
+					<input type='text' id='osc3__gain'>
+				</div>
+				<div class='knob-wrapper'>
+					<input type='text' id='osc3__detune'>
+				</div>
+			</div>
 	
+		</div>
+
 		<div class='vcf module'>
 			<h2>VCF</h2>
-			<div class="knob-wrapper" data-label='freq'>
-				<input type='text' id='vcf__freq' value='880'>
+			<div class='knob-wrapper' data-label='freq'>
+				<input type='text' id='vcf__freq'>
 			</div>
-			<div class="knob-wrapper" data-label='qual'>
-				<input type='text' id='vcf__q' value='1'>
+			<div class='knob-wrapper' data-label='q'>
+				<input type='text' id='vcf__q'>
 			</div>
 		</div>
 	</div>
 
-	<div id="keyboard"></div>
+	<div id='keyboard'></div>
 
 	<script src='bundle.js'></script>
 

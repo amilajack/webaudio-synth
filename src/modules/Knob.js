@@ -1,9 +1,10 @@
 import knob from 'jquery-knob';
-import { colors } from './colors';
+import { colors } from './_colors';
 
 
 export default class Knob {
-	constructor(id, options) {
+	constructor(id, options, subscribers, defaultValue = 0) {
+
 		
 		this.defaultOptions = {
 			min:			1,
@@ -18,13 +19,17 @@ export default class Knob {
 			displayInput:	false,
 			font:			'Orbitron',
 			cursor:			20,
-			change: 		value => console.log(`${this.id}: ${value}`),
-			draw:			() => {}
+			change: 		value => this.handleChange
 		};
-
+		
 		this.id = id || `new-knob-${~~(Math.random()* 100)}`;
 		
 		this.options = Object.assign({}, this.defaultOptions, options);
+		
+		this.subscribers = subscribers;
+
+		this.defaultValue = defaultValue;
+		console.log(this.id + ' - ' + this.defaultValue);
 
 		this.init();
 	}
@@ -33,14 +38,20 @@ export default class Knob {
 		
 		let input = document.getElementById(this.id);
 
-
 		if(!input) {
 			let input = document.createElement('input');
 			input.id = this.id;
 			input.value = 1;
 			document.body.appendChild(input);
-		}
+		};
 
-		$('#' + this.id).knob(this.options);
+		let knobID = '#' + this.id;
+
+		$(knobID).knob(this.options);
+		$(knobID).val(this.defaultValue).trigger('change');
+	}
+
+	handleChange = () => {
+		this.subscribers.map(callback => callback());
 	}
 };

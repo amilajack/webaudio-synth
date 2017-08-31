@@ -34,6 +34,7 @@ export default class VCF {
 			{
 				min: 			0,
 				max: 			10,
+				value:			'1',
 				step: 			.1,
 				width: 			'40%',
 				displayInput: 	true,
