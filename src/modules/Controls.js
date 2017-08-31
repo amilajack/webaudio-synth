@@ -4,25 +4,31 @@ import Knob from './Knob';
 
 
 export default class Controls {
-	constructor(name, items) {
+	constructor(moduleName, controlsDescription, changeStoreParam) {
 
-		this.name = name;
-		this.items = items;
+		this.moduleName = moduleName;
+		this.controlsDescription = controlsDescription;
+		this.changeStoreParam = changeStoreParam;
+
+		this.controlsItems = [];
+
+		console.log(this);
 
 		this.init();
 	}
 
 	init = () => {
 
-		this.items.map(item => {
+		this.controlsDescription.map(item => {
 			switch (item.type) {
 				case 'knob':
-					let knob = new Knob(
+					this.controlsItems.push(new Knob(
+							this.moduleName,
 							item.id,
 							item.options,
-							item.subscribers,
-							settings[this.name][item.id]
-					);
+							settings[this.moduleName][item.id],
+							this.changeStoreParam
+					));
 					break;
 				case 'list':
 					// console.log('not ready yet');

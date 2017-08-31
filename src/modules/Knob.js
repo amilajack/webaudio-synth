@@ -3,8 +3,11 @@ import { colors } from './_colors';
 
 
 export default class Knob {
-	constructor(id, options, subscribers, defaultValue = 0) {
+	constructor(moduleName, id, options, defaultValue = 0, callback) {
 
+		this.moduleName = moduleName;
+
+		this.id = id || `new-knob-${~~(Math.random()* 100)}`;
 		
 		this.defaultOptions = {
 			min:			1,
@@ -19,17 +22,13 @@ export default class Knob {
 			displayInput:	false,
 			font:			'Orbitron',
 			cursor:			20,
-			change: 		value => this.handleChange
+			change: 		value => this.handleChange(value)
 		};
-		
-		this.id = id || `new-knob-${~~(Math.random()* 100)}`;
-		
 		this.options = Object.assign({}, this.defaultOptions, options);
 		
-		this.subscribers = subscribers;
+		this.callback = callback;
 
 		this.defaultValue = defaultValue;
-		console.log(this.id + ' - ' + this.defaultValue);
 
 		this.init();
 	}
@@ -51,7 +50,7 @@ export default class Knob {
 		$(knobID).val(this.defaultValue).trigger('change');
 	}
 
-	handleChange = () => {
-		this.subscribers.map(callback => callback());
+	handleChange = (value) => {
+		this.callback(this.moduleName, this.id, value);
 	}
 };

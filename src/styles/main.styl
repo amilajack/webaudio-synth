@@ -47,11 +47,21 @@ body
 		margin-right 5px
 		// border: 1px dashed $color-primary
 		border-radius 5px
+		justify-content flex-end
 		&.vco
 			background-color alpha(#c561ff, .1)
-			justify-content flex-end
 		&.vcf
 			background-color alpha(#5abbbf, .1)
+			justify-content center
+		&.vca
+			background-color alpha(#61f000, .1)
+			.knob-wrapper
+				margin 0px 0
+				&:after
+					left unset
+					bottom 50%
+					right -25%
+					margin auto
 		h2
 			position absolute
 			top 5px
@@ -64,7 +74,7 @@ body
 			text-shadow 2px 2px 0px #111
 		.knob-wrapper
 			position relative
-			margin 10px 0
+			margin 15px 0
 			text-align center
 			&:after
 				content attr(data-label)
@@ -90,9 +100,13 @@ body
 			.knob-wrapper
 				flex 1 0 50%
 				align-self flex-end
+				user-select none
 
-// canvas
-// 	filter drop-shadow(0px 1px 1px #111)
+canvas
+	filter drop-shadow(0px 1px 1px #111)
+
+input
+	user-select none
 
 #keyboard
 	display none

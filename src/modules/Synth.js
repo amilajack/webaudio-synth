@@ -1,12 +1,72 @@
+import Store from './Store';
 import VCO from './VCO';
 import VCF from './VCF';
 import VCA from './VCA';
 import Keyboard from './Keyboard';
 import Controls from './Controls';
 
+import { interfaceSettings } from './_interfaceSettings';
+import { defaultSettings as settings } from './_settings';
+
 
 export default class Synth {
 	constructor() {
+
+		this.store = new Store(settings);
+
+		console.log(this.store);
+
+		this.controls = [];
+
+		Object.keys(interfaceSettings).forEach(key => {
+			this.controls.push({
+				[key]: new Controls(
+					key,
+					interfaceSettings[key],
+					this.store.changeParam
+				)
+			});
+		});
+		console.log(this.controls);
+
+		this.vcos = {};
+
+		this.keyboard = new Keyboard(
+			{
+				id: 'keyboard'
+			},
+			(note, freq) => {
+				if (this.vcos[note]) {
+					this.vcos[note].play(freq);
+				} else {
+					let newVCO = new VCO(this.context, note, this.vcosGainNode);
+
+					Object.keys(newVCO.oscillators).forEach(oscName => {
+						['gain', 'detune', 'wavetype'].forEach(paramName => {
+							this.store.subscribe(
+								'vco',
+								`${oscName}__${paramName}`,
+								() => newVCO.set(
+									oscName,
+									paramName,
+									this.store.settings['vco'][`${oscName}__${paramName}`]
+								)
+							)
+						});
+					});
+
+					this.vcos = Object.assign({}, this.vcos, {
+						[note]: newVCO
+					});
+					this.vcos[note].play(freq);
+				}
+			},
+			(note, freq) => {
+				if (this.vcos[note]) {
+					this.vcos[note].disconnect() // stop oscillators
+				}
+			}
+		);
 
 		this.init();
 	}
@@ -20,92 +80,18 @@ export default class Synth {
 			alert('Web Audio API is not supported in this browser');
 		};
 
+		this.vcosGainNode = this.context.createGain();
+
+		this.vcosGainNode.connect(this.context.destination);
 		// const vco = new VCO(context);
-		this.vcf = new VCF(this.context);
-		const gainNode = this.context.createGain();
+		// this.vcf = new VCF(this.context);
 
 
 		// const keyboard = new Keyboard();
-		
+
 
 		// vco.connect(vcf);
 		// vcf.connect(gainNode);
 		// gainNode.connect(context.destination);
 	}
 }
-
-
-let controlsVCO = new Controls(
-	'vco',
-	[
-		{
-			type:	'knob',
-			id:		'osc1__gain',
-			options: {
-				min: 0,
-				max: 100,
-				width: '60%',
-				displayInput: true
-			},
-			subscribers: []
-		},
-		{
-			type:	'knob',
-			id:		'osc1__detune',
-			options: {
-				min: -2,
-				max: 2,
-				step: .5,
-				thickness: .3
-			}
-		},
-		{
-			type:	'list',
-			id:		'osc1__wavetype'
-		},
-		{
-			type:	'knob',
-			id:		'osc2__gain',
-			options: {
-				min: 0,
-				max: 100,
-				width: '60%',
-				displayInput: true
-			},
-			subscribers: []
-		},
-		{
-			type:	'knob',
-			id:		'osc2__detune',
-			options: {
-				thickness: .3
-			}
-		},
-		{
-			type:	'list',
-			id:		'osc2__wavetype'
-		},
-		{
-			type:	'knob',
-			id:		'osc3__gain',
-			options: {
-				min: 0,
-				max: 100,
-				width: '60%',
-				displayInput: true
-			},
-			subscribers: []
-		},
-		{
-			type:	'knob',
-			id:		'osc3__detune',
-			options: {
-				thickness: .3
-			}
-		},
-		{
-			type:	'list',
-			id:		'osc3__wavetype'
-		},
-	]
-);

@@ -2,21 +2,60 @@ import Oscillator from './Oscillator';
 
 
 export default class VCO {
-	constructor(context, noteBind) {
+	constructor(context, noteBind, outputNode) {
 
 		this.context = context;
+		this.noteBind = noteBind;
+		this.outputNode = outputNode;
+		this.oscillators = {};
 
+		this.init();
 	}
 
 	init = () => {
-		for(let i = 0; i < 3; i++) {
-			this.oscillators.push(new Oscillator(this.context));
+
+		this.oscillators = {
+			osc1: new Oscillator(this.context),
+			osc2: new Oscillator(this.context),
+			osc3: new Oscillator(this.context)
+		};
+
+	}
+
+	connect = () => {
+		for (let osc in this.oscillators) {
+			this.oscillators[osc].connect(this.outputNode);
+		};
+	}
+
+	disconnect = () => {
+		for (let osc in this.oscillators) {
+			this.oscillators[osc].disconnect();
+		};
+	}
+
+	set = (oscName, paramName, value) => {
+		console.log(oscName + ' - ' + paramName + ' - ' + value);
+		switch (paramName) {
+			case 'frequency':
+				for (let osc in this.oscillators) {
+					this.oscillators[osc].setFrequency(value);
+				};
+				break;
+			case 'gain':
+				this.oscillators[oscName].setGain(value);
+				break;
+			case 'detune':
+				this.oscillators[oscName].setDetune(value);
+				break;
+			case 'wavetype':
+				this.oscillators[oscName].setWavetype(type);
+				break;
 		}
 	}
 
-	updateSettings = (settings) => {
-		settings.map((params, index) => {
-			this.oscillators[index].setParams(params);
-		});
-	}
+	play = (freq) => {
+		this.set(null, 'frequency', freq);
+		this.connect();
+	} 
 }

@@ -2,79 +2,36 @@ import Knob from './Knob';
 
 
 export default class Oscillator {
-	constructor(context, id) {
+	constructor(context) {
 
 		this.context = context;
-		this.oscillator = this.context.createOscillator();
-		this.oscillator.type = 'sawtooth';
-		this.setFrequency(440);
-		this.oscillator.start();
-
-		this.gain = 1;
-		
+	
+		this.osc = this.context.createOscillator();
 		this.gainNode = this.context.createGain();
-		this.gainNode.gain.value = this.gain; // default is muted
 
-		this.input = this.oscillator;
-		this.output = this.oscillator.connect(this.gainNode);
+		this.setWaveType('sawtooth');
+		this.setFrequency(440);
+		this.setGain(1);
+		this.osc.start();
+		
 
-		this.init();
-	}
-
-	init = () => {
-
-		const vcoFreqKnob = new Knob(
-			'vco__freq',
-			{
-				min:			20,
-				max:			880,
-				width: 			'60%',
-				displayInput: 	true,
-				change: 		freq => this.setFrequency(freq)
-			}
-		);
-
-		const vcoDetuneKnob = new Knob(
-			'vco__detune',
-			{
-				min:			-200,
-				max:			200,
-				width:			'50%',
-				thickness: 		.3,
-				angleOffset: 	-80,
-				cursor:			40,
-				change: 		value => this.setDetune(value)
-			}
-		);
-	}
-
-	setWaveType = waveType => {
-		this.oscillator.type = waveType;
+		this.input 	= this.osc;
+		this.output = this.osc.connect(this.gainNode);
 	}
 
 	setFrequency = freq => {
 		if(isFinite(freq)) {
-			this.oscillator.frequency.setValueAtTime(freq, this.context.currentTime);
-		}
+			this.osc.frequency.setValueAtTime(freq, this.context.currentTime);
+		};
 	}
+
+	setGain = value => this.gainNode.gain.value = value;
 
 	setDetune = value => {
-		this.oscillator.detune.setValueAtTime(value, this.context.currentTime);
+		this.osc.detune.setValueAtTime(value, this.context.currentTime);
 	}
 
-	setGain = value => this.gain = value;
-
-	play = (note, freq) => {
-		this.lastNote = note;
-		this.setFrequency(freq);
-		this.gainNode.gain.value = this.gain;
-	}
-
-	stop = (note, freq) => {
-		if (note === this.lastNote) {
-			this.gainNode.gain.value = 0;
-		}
-	}
+	setWaveType = type => this.osc.type = type;
 
 	connect = node => {
 		if (node.hasOwnProperty('input')) {
@@ -83,4 +40,6 @@ export default class Oscillator {
 			this.output.connect(node);
 		};
 	}
+
+	disconnect = () => this.output.disconnect();
 };
