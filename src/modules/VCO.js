@@ -20,6 +20,7 @@ export default class VCO {
 			osc3: new Oscillator(this.context)
 		};
 
+		this.connect();
 	}
 
 	connect = () => {
@@ -35,7 +36,7 @@ export default class VCO {
 	}
 
 	set = (oscName, paramName, value) => {
-		console.log(oscName + ' - ' + paramName + ' - ' + value);
+
 		switch (paramName) {
 			case 'frequency':
 				for (let osc in this.oscillators) {
@@ -49,13 +50,22 @@ export default class VCO {
 				this.oscillators[oscName].setDetune(value);
 				break;
 			case 'wavetype':
-				this.oscillators[oscName].setWavetype(type);
+				this.oscillators[oscName].setWavetype(value);
 				break;
 		}
+
 	}
 
 	play = (freq) => {
 		this.set(null, 'frequency', freq);
-		this.connect();
-	} 
+		for (let osc in this.oscillators) {
+			this.oscillators[osc].play();
+		};
+	};
+
+	stop = () => {
+		for (let osc in this.oscillators) {
+			this.oscillators[osc].stop();
+		};
+	}
 }

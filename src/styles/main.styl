@@ -16,8 +16,8 @@ body
 	left 10%
 	bottom 0
 	margin auto
-	width 820px
-	height 435px
+	width 1100px
+	height 450px
 	// width 50vw
 	// height 55vh
 	// min-width 820px
@@ -29,6 +29,9 @@ body
 	box-shadow: 1px 1px 0px $color-primary
 	border: 2px solid $color-primary
 	border-radius 10px
+	opacity 0
+	animation: fade-in .4s
+	animation-fill-mode forwards
 	box-shadow:
 		1px -0px rgb(127,255,255), 1px -1px rgb(192,255,255),
 		2px -1px rgb(126,254,254), 2px -2px rgb(191,254,254),
@@ -39,28 +42,29 @@ body
 
 	.module
 		position relative
-		flex 0 1 25%
+		flex 0 1 20%
 		display flex
 		flex-direction column
 		justify-content center
 		align-items center
 		margin-right 5px
-		// border: 1px dashed $color-primary
-		border-radius 5px
+		border-right: 1px solid $color-primary
 		justify-content flex-end
-		&.vco
-			background-color alpha(#c561ff, .1)
+		&:last-child
+			border none
+			margin none
+
 		&.vcf
-			background-color alpha(#5abbbf, .1)
+		&.lfo
 			justify-content center
 		&.vca
-			background-color alpha(#61f000, .1)
+			align-items flex-start
 			.knob-wrapper
-				margin 0px 0
+				margin 0 0 0 10px
 				&:after
 					left unset
 					bottom 50%
-					right -25%
+					left 110%
 					margin auto
 		h2
 			position absolute
@@ -81,7 +85,7 @@ body
 				position absolute
 				left 0
 				right 0
-				bottom 5%
+				bottom -5px
 				margin auto
 				font-size 17px
 				text-align center
@@ -93,7 +97,7 @@ body
 				letter-spacing 1px
 				text-shadow 1px 2px 0px #111
 
-		.osc
+		.knob-group
 			display flex
 			// width calc(100% - 10px)
 			justify-content center
@@ -110,3 +114,11 @@ input
 
 #keyboard
 	display none
+
+
+
+@keyframes fade-in
+	0%
+		opacity 0
+	100%
+		opacity 1

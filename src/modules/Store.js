@@ -4,43 +4,39 @@ export default class Store {
 
 		this.settings = settings;
 
+		// only settings structure
 		this.subscribers = {};
 
 	}
 
-	subscribe = (moduleName, param, callback) => {
+	subscribe = (paramName, callback) => {
 
-		let paramCallbacks = [];
+		if (this.subscribers[paramName]) {
+			let callbacks = this.subscribers[paramName];
 
-		if (this.subscribers[moduleName]) {
-			paramCallbacks = this.subscribers[moduleName][param];
+			this.subscribers[paramName] = callbacks ?
+				[...callbacks, callback]
+				:
+				[callback];
+		} else {
+			this.subscribers[paramName] = [callback];
 		};
 
-		console.log(moduleName, param, paramCallbacks);
+		// drop settings to new subscriber
+		this.broadcast(paramName);
 
-		this.subscribers = Object.assign({}, this.subscribers, {
-			[moduleName]: {
-				[param]: paramCallbacks ? 
-						[...paramCallbacks, callback]
-						:
-						[callback]
-			}
-		})
 	}
 
-	broadcast = (moduleName, param) => {
-		this.subscribers[moduleName][param].map(paramCallback => paramCallback());
+	broadcast = (paramName) => {
+		if (this.subscribers[paramName]) {
+			this.subscribers[paramName].map(callback => callback());
+		}
 	}
 
-	changeParam = (moduleName, param, value) => {
-		// console.log(this.settings);
-		this.settings = Object.assign({}, this.settings, {
-			[moduleName]: {
-				[param]: value
-			}
-		});
-		// console.log(this.settings);
-		// this.broadcast(moduleName, param);
+	changeParam = (paramName, value) => {
+
+		this.settings[paramName] = value;
+
+		this.broadcast(paramName);
 	}
 }
-

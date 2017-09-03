@@ -3,9 +3,7 @@ import { colors } from './_colors';
 
 
 export default class Knob {
-	constructor(moduleName, id, options, defaultValue = 0, callback) {
-
-		this.moduleName = moduleName;
+	constructor(id, options, defaultValue = 0, callback) {
 
 		this.id = id || `new-knob-${~~(Math.random()* 100)}`;
 		
@@ -51,6 +49,6 @@ export default class Knob {
 	}
 
 	handleChange = (value) => {
-		this.callback(this.moduleName, this.id, value);
+		this.callback(this.id, value);
 	}
 };

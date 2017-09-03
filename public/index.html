@@ -15,7 +15,7 @@
 		<div class='vco module'>
 			<h2>VCO</h2>
 
-			<div class='osc' id='osc1'>
+			<div class='knob-group' id='osc1'>
 				<div class='knob-wrapper' data-label='gain'>
 					<input type='text' id='osc1__gain'>
 				</div>
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<div class='osc' id='osc2'>
+			<div class='knob-group' id='osc2'>
 				<div class='knob-wrapper' data-label='gain'>
 					<input type='text' id='osc2__gain'>
 				</div>
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 
-			<div class='osc' id='osc3'>
+			<div class='knob-group' id='osc3'>
 				<div class='knob-wrapper' data-label='gain'>
 					<input type='text' id='osc3__gain'>
 				</div>
@@ -46,7 +46,7 @@
 
 		<div class='vcf module'>
 			<h2>VCF</h2>
-			<div class='knob-wrapper' data-label='freq'>
+			<div class='knob-wrapper' data-label='cutoff'>
 				<input type='text' id='filter__freq'>
 			</div>
 			<div class='knob-wrapper' data-label='q'>
@@ -54,20 +54,47 @@
 			</div>
 		</div>
 
+		<div class="lfo module">
+			<h2>LFO</h2>
+			<div class='knob-wrapper' data-label='freq'>
+				<input type='text' id='lfo__freq'>
+			</div>
+		</div>
+
 		<div class='vca module'>
 			<h2>VCA</h2>
-			<div class='knob-wrapper' data-label='a'>
+			<div class='knob-wrapper' data-label='attack'>
 				<input type='text' id='attack'>
 			</div>
-			<div class='knob-wrapper' data-label='d'>
+			<div class='knob-wrapper' data-label='decay'>
 				<input type='text' id='decay'>
 			</div>
-			<div class='knob-wrapper' data-label='s'>
+			<div class='knob-wrapper' data-label='sustain'>
 				<input type='text' id='sustain'>
 			</div>
-			<div class='knob-wrapper' data-label='r'>
+			<div class='knob-wrapper' data-label='release'>
 				<input type='text' id='release'>
 			</div>
+		</div>
+
+		<div class="delay module">
+			<h2>Delay</h2>
+			<div class='knob-wrapper' data-label='gain'>
+				<input type='text' id='delay__gain'>
+			</div>
+			<div class='knob-wrapper' data-label='time'>
+				<input type='text' id='delay__time'>
+			</div>
+			<div class="knob-group">
+				<div class='knob-wrapper' data-label='fback'>
+					<input type='text' id='delay__feedback'>
+				</div>
+				<div class='knob-wrapper' data-label='cutoff'>
+					<input type='text' id='delay__cutoff'>
+				</div>
+			</div>
+
+
 		</div>
 
 	</div>
