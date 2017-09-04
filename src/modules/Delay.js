@@ -33,7 +33,6 @@ export default class Delay {
 				this.filter.frequency.value = value;
 				break;
 		}
-		console.log(this);
 	}
 
 	connect = node => {

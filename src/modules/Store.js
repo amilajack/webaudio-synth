@@ -24,7 +24,6 @@ export default class Store {
 
 		// drop settings to new subscriber
 		this.broadcast(paramName);
-
 	}
 
 	broadcast = (paramName) => {

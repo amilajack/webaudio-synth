@@ -1,6 +1,7 @@
 import { defaultSettings as settings } from './_settings';
 
 import Knob from './Knob';
+import List from './List';
 
 
 export default class Controls {
@@ -28,9 +29,11 @@ export default class Controls {
 				));
 				break;
 			case 'list':
-				// console.log('not ready yet');
+				this.controlsItems.push(new List(
+					ctrl.id,
+					this.changeStoreParam
+				));
 				break;
 		};
-
 	}
 }

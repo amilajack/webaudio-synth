@@ -22,6 +22,11 @@
 				<div class='knob-wrapper'>
 					<input type='text' id='osc1__detune'>
 				</div>
+				<ul id='osc1__wavetype'>
+					<li data-wavetype='sine' class='selected'></li>
+					<li data-wavetype='sawtooth'></li>
+					<li data-wavetype='square'></li>
+				</ul>
 			</div>
 
 			<div class='knob-group' id='osc2'>
@@ -31,6 +36,11 @@
 				<div class='knob-wrapper'>
 					<input type='text' id='osc2__detune'>
 				</div>
+				<ul id='osc2__wavetype'>
+					<li data-wavetype='sine'></li>
+					<li data-wavetype='sawtooth' class='selected'></li>
+					<li data-wavetype='square'></li>
+				</ul>
 			</div>
 
 			<div class='knob-group' id='osc3'>
@@ -40,6 +50,11 @@
 				<div class='knob-wrapper'>
 					<input type='text' id='osc3__detune'>
 				</div>
+				<ul id='osc3__wavetype'>
+					<li data-wavetype='sine'></li>
+					<li data-wavetype='sawtooth'></li>
+					<li data-wavetype='square' class='selected'></li>
+				</ul>
 			</div>
 	
 		</div>
@@ -54,10 +69,17 @@
 			</div>
 		</div>
 
-		<div class="lfo module">
+		<div class='lfo module'>
 			<h2>LFO</h2>
-			<div class='knob-wrapper' data-label='freq'>
-				<input type='text' id='lfo__freq'>
+			<div class="knob-group">
+				<div class='knob-wrapper' data-label='freq'>
+					<input type='text' id='lfo__freq'>
+				</div>
+				<ul id='lfo__wavetype'>
+					<li data-wavetype='sine' class='selected'></li>
+					<li data-wavetype='sawtooth'></li>
+					<li data-wavetype='square'></li>
+				</ul>
 			</div>
 		</div>
 
@@ -77,7 +99,7 @@
 			</div>
 		</div>
 
-		<div class="delay module">
+		<div class='delay module'>
 			<h2>Delay</h2>
 			<div class='knob-wrapper' data-label='gain'>
 				<input type='text' id='delay__gain'>
@@ -85,7 +107,7 @@
 			<div class='knob-wrapper' data-label='time'>
 				<input type='text' id='delay__time'>
 			</div>
-			<div class="knob-group">
+			<div class='knob-group'>
 				<div class='knob-wrapper' data-label='fback'>
 					<input type='text' id='delay__feedback'>
 				</div>
@@ -93,9 +115,9 @@
 					<input type='text' id='delay__cutoff'>
 				</div>
 			</div>
-
-
 		</div>
+
+		<canvas id='wires' width='1100' height='625'></canvas>
 
 	</div>
 

@@ -1,6 +1,7 @@
 import Store from './Store';
 import VCO from './VCO';
 import VCF from './VCF';
+import LFO from './LFO';
 import VCA from './VCA';
 import Delay from './Delay';
 import Keyboard from './Keyboard';
@@ -32,7 +33,8 @@ export default class Synth {
 			this.controls.push(
 				new Controls(
 					item,
-					this.store.changeParam
+					this.store.changeParam,
+					this.store.subscribe // for wavetype list select highlighting
 				)
 			);
 		});
