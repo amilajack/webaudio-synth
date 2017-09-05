@@ -1,8 +1,9 @@
 
 export default class List {
-	constructor(id, callback) {
+	constructor(id, defaultValue = 'sine', callback) {
 
 		this.id = id;
+		this.defaultValue = defaultValue;
 		this.callback = callback;
 
 		this.items = [];
@@ -13,21 +14,26 @@ export default class List {
 	init = () => {
 
 		this.items = [...document.querySelectorAll(`#${this.id} li`)];
+		this.updateDOM(this.defaultValue); // add class to list item
 
 		this.items.map(item => {
 			item.addEventListener('click', () => {
-				this.selected = item.dataset.wavetype; // selected wavetype
+				let selectedValue = item.dataset.wavetype; // selected wavetype
 
-				this.callback(this.id, this.selected);
+				this.callback(this.id, selectedValue);
 
-				this.items.map(item => {
-					if (item.dataset.wavetype === this.selected) {
-						item.classList.add('selected');
-					} else {
-						item.classList.remove('selected');
-					}
-				});
+				this.updateDOM(selectedValue);
 			});
+		});
+	}
+
+	updateDOM = value => {
+		this.items.map(item => {
+			if (item.dataset.wavetype === value) {
+				item.classList.add('selected');
+			} else {
+				item.classList.remove('selected');
+			}
 		});
 	}
 }

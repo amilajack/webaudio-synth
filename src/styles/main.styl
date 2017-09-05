@@ -18,6 +18,13 @@ body
 		background-image url('/images/bg.gif')
 		transition opacity .2s
 	
+	&.on-wires-drawing
+		.knob-wrapper
+		ul
+			opacity .4
+			pointer-events none
+		
+	
 	&.playing
 		&:before
 			opacity 0
@@ -76,6 +83,8 @@ body
 					bottom -30px
 					margin auto
 					width 80%
+					transition opacity .2s
+					pointer-events all
 					li
 						margin 0 5px
 
@@ -106,6 +115,9 @@ body
 			position relative
 			margin 15px 0
 			text-align center
+			transition opacity .2s
+			pointer-events all
+			z-index 2
 			&:after
 				content attr(data-label)
 				position absolute
@@ -131,7 +143,7 @@ body
 				flex 1 0 50%
 				align-self flex-end
 				user-select none
-	
+
 			// wavetype select list
 			ul
 				width 50%
@@ -166,15 +178,15 @@ body
 canvas
 	filter drop-shadow(0px 1px 1px #111)
 	user-select none
-
-#wires
-	position absolute
-	left 0
-	right 0
-	bottom -150px
-	margin auto
+	&#wires
+		position absolute
+		left 0
+		right 0
+		bottom -150px
+		margin auto
+		z-index 1
 	// border 1px solid #111
-	pointer-events none
+	// pointer-events none
 
 input
 	cursor pointer

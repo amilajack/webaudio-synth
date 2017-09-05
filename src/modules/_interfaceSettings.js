@@ -7,7 +7,7 @@ const knobSize = {
 };
 
 
-export const interfaceSettings = [
+const interfaceSettings = [
 	// VCO
 	{
 		type: 'knob',
@@ -233,3 +233,64 @@ export const interfaceSettings = [
 		}
 	}
 ];
+
+
+const modulationPortsIn = [
+	{
+		id: 'osc1__gain',
+		pos: {
+			x: 30,
+			y: 440
+		}
+	},
+	{
+		id: 'osc2__gain',
+		pos: {
+			x: 80,
+			y: 440
+		}
+	},
+	{
+		id: 'osc3__gain',
+		pos: {
+			x: 130,
+			y: 440
+		}
+	},
+	{
+		id: 'filter__freq',
+		pos: {
+			x: 410,
+			y: 215
+		}
+	}
+];
+
+
+const modulationPortsOut = [
+	{
+		name: 'lfo',
+		count: 6,
+		pos: {
+			x: 470,
+			y: 400,
+			distance: 30,
+		}
+	},
+	{
+		name: 'vca',
+		count: 4,
+		pos: {
+			x: 690,
+			y: 435,
+			distance: 40,
+		}
+	}
+];
+
+
+export {
+	interfaceSettings,
+	modulationPortsIn,
+	modulationPortsOut
+};

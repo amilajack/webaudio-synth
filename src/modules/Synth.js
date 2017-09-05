@@ -73,6 +73,7 @@ export default class Synth {
 						[note]: newVCO
 					});
 					this.VCOs[note].play(freq);
+					console.log(this);
 				}
 			},
 			// 'keyUp' event callback

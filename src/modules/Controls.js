@@ -31,6 +31,7 @@ export default class Controls {
 			case 'list':
 				this.controlsItems.push(new List(
 					ctrl.id,
+					settings[ctrl.id],
 					this.changeStoreParam
 				));
 				break;
