@@ -31,6 +31,13 @@ let defaultSettings = {
 	'delay__feedback': 	.1,
 	'delay__cutoff': 	1000,
 
+	// Modulation
+	modulation: {
+		'lfo__out-1': 'osc2__gain',
+		'lfo__out-3': 'filter__freq',
+		'vca__out-2': 'osc1__gain'
+	}
+
 };
 
 

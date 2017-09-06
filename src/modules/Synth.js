@@ -7,8 +7,8 @@ import Delay from './Delay';
 import Keyboard from './Keyboard';
 import Controls from './Controls';
 
-import { interfaceSettings } from './_interfaceSettings';
-import { defaultSettings as settings } from './_settings';
+import { controlItems } from './_interfaceSettings';
+import { defaultSettings as settings } from './_paramSettings';
 
 
 export default class Synth {
@@ -29,7 +29,7 @@ export default class Synth {
 		// creating controls
 		this.controls = [];
 
-		interfaceSettings.map(item => {
+		controlItems.map(item => {
 			this.controls.push(
 				new Controls(
 					item,
@@ -87,14 +87,12 @@ export default class Synth {
 
 		// creating filter 
 		this.VCF = new VCF(this.context);
-		this.store.subscribe(
-			'filter__freq',
-			() => this.VCF.setFrequency(this.store.settings['filter__freq'])
-		);
-		this.store.subscribe(
-			'filter__qual',
-			() => this.VCF.setQ(this.store.settings['filter__qual'])
-		);
+		['freq', 'qual'].map(paramName => {
+			this.store.subscribe(
+				`filter__${paramName}`,
+				() => this.VCF.set(paramName, this.store.settings[`filter__${paramName}`])
+			)
+		});
 
 
 		// creating delay

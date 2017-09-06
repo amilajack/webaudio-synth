@@ -12,9 +12,18 @@ export default class VCF {
 		this.output = this.filter;
 	}
 
-	setFrequency = freq => this.filter.frequency.value = freq;
+	set = (paramName, value) => {
 
-	setQ = q => this.filter.Q.value = q;
+		switch (paramName) {
+			case 'freq':
+				this.filter.frequency.value = value;
+				break;
+			case 'qual':
+				this.filter.Q.value = value;
+				break;
+		}
+
+	}
 
 	connect = node => {
 		if (node.hasOwnProperty('input')) {

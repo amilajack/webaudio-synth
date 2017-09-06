@@ -1,4 +1,4 @@
-import { defaultSettings as settings } from './_settings';
+import { defaultSettings as settings } from './_paramSettings';
 
 import Knob from './Knob';
 import List from './List';

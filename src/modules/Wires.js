@@ -1,5 +1,6 @@
 import { colors } from './_colors';
-import { modulationPortsIn, modulationPortsOut } from './_interfaceSettings'; 
+import { modulationPorts } from './_interfaceSettings';
+import { defautlSettings as settings } from './_paramSettings';
 
 
 export default class Wires {
@@ -9,20 +10,24 @@ export default class Wires {
 	}
 
 	init = () => {
+
+		this.wires = [];
+
 		this.canvas = document.getElementById('wires');
 
-		// draw functions
-		this.canvas.drawPort = (x, y, R = 5) => {
+		// drawing functions
+		this.canvas.drawCircle = (x, y, R = 5, opacity = 1) => {
 			const ctx = this.canvas.getContext('2d');
 			ctx.beginPath();
 	
 			ctx.arc(x, y, R, 0, 2*Math.PI);
 			ctx.lineWidth = 5;
 			ctx.strokeStyle = colors.accent;
+			ctx.globalAlpha = opacity;
 			ctx.stroke();
 		};
 
-		this.canvas.drawWire = (startPoint, endPoint) => {
+		this.canvas.drawCurve = (startPoint, endPoint) => {
 			const ctx = this.canvas.getContext('2d');
 
 			ctx.beginPath();
@@ -37,54 +42,114 @@ export default class Wires {
 			ctx.lineWidth = 4;
 			ctx.lineCap = 'round';
 			ctx.strokeStyle = colors.accent;
+			ctx.globalAlpha = 1;
 			ctx.stroke();
 		};
-	
-		// draw ports [in]
-		modulationPortsIn.map(port => {
-			this.canvas.drawPort(port.pos.x, port.pos.y);
-		});
 
-		// draw port [out]
-		modulationPortsOut.map(portsGroup => {
-			for (let i = 0; i < portsGroup.count; i++) {
-				this.canvas.drawPort(
-					portsGroup.pos.x + i*portsGroup.pos.distance, 
-					portsGroup.pos.y
+
+		// draw ports
+		const drawPorts = (type, name) => {
+
+			modulationPorts.map(port => {
+				let portOpacity;
+
+				if (type) {
+					portOpacity = (type === port.type || name === port.name) ? 1 : .5;
+				} else {
+					portOpacity = 1;
+				};
+
+				this.canvas.drawCircle(
+					port.pos.x,
+					port.pos.y,
+					5,
+					portOpacity
 				);
+			});
+		};
+
+		const drawWires = () => {
+
+			this.wires.map(wire => {
+				this.canvas.drawCurve(wire.startPoint, wire.endPoint);
+			});
+	
+		};
+
+		const detectPort = (easing = 10) => {
+			let detectedPort;
+
+			modulationPorts.map(port => {
+				if ( (mousePos.x >= (port.pos.x - easing)) && (mousePos.x <= (port.pos.x + easing)) ) {
+					if ( (mousePos.y >= (port.pos.y - easing)) && (mousePos.y <= (port.pos.y + easing)) ) {
+						detectedPort = port;
+						return;
+					}	
+				};
+			});
+
+			return detectedPort;
+		};
+
+
+		const bodyDOM = document.querySelector('body');
+		let onDrawingCurve = false; // curve drawing state
+		let mousePos = {};
+		let startPort, endPort = {};
+
+		// mouse events
+		this.canvas.addEventListener('mousemove', event => {
+			mousePos.x = event.offsetX;
+			mousePos.y = event.offsetY;
+		});	
+
+		this.canvas.addEventListener('mousedown', event => {
+			
+			startPort = detectPort();
+
+			if (startPort) {
+				bodyDOM.classList.add('on-wires-drawing');
+				onDrawingCurve = true; // start drawing new curve
 			};
 		});
 
-
-		// 'caching'
-		const bodyDOM = document.querySelector('body');
-
-
-		let startPoint = {};
-		// canvas click events
-		this.canvas.addEventListener('mousedown', event => {
-			bodyDOM.classList.add('on-wires-drawing');
-
-			startPoint.x = event.offsetX;
-			startPoint.y = event.offsetY;
-	
-			console.log(startPoint.x, startPoint.y);
-		});
-
 		this.canvas.addEventListener('mouseup', event => {
+
+			endPort = detectPort();
+
+			if (endPort && (endPort.type !== startPort.type)) {
+				this.wires.push({
+					startPort: 	(startPort.type === 'out') ? startPort.name : endPort.name,
+					endPort:  	(endPort.type === 'in') ? endPort.name : startPort.name,
+					startPoint: startPort.pos,
+					endPoint: endPort.pos
+				});
+			};
+
+			onDrawingCurve = false;
 			bodyDOM.classList.remove('on-wires-drawing');
-
-			let endPoint = {};
-			
-			endPoint.x = event.offsetX;
-			endPoint.y = event.offsetY;
-
-			console.log(endPoint.x, endPoint.y);
-
-			this.canvas.drawWire(startPoint, endPoint);
+	
+			console.log(this);
 		});
 
 
-		console.log(this);
+		const redraw = () => {
+			const ctx = this.canvas.getContext('2d');
+
+			// clear previous drawings
+			ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+			drawPorts();
+			drawWires();
+
+			// draw new wire
+			if (onDrawingCurve) {
+				this.canvas.drawCurve(startPort.pos, mousePos);
+			};
+
+			window.requestAnimationFrame(redraw);
+		};
+		redraw();
+
 	}
 }

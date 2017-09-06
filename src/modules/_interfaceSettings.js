@@ -7,7 +7,7 @@ const knobSize = {
 };
 
 
-const interfaceSettings = [
+const controlItems = [
 	// VCO
 	{
 		type: 'knob',
@@ -235,62 +235,130 @@ const interfaceSettings = [
 ];
 
 
-const modulationPortsIn = [
+const modulationPorts = [
+	// osc ports
 	{
-		id: 'osc1__gain',
+		name: 'osc1__gain',
+		type: 'in',
 		pos: {
 			x: 30,
-			y: 440
+			y: 450
 		}
 	},
 	{
-		id: 'osc2__gain',
+		name: 'osc2__gain',
+		type: 'in',
 		pos: {
 			x: 80,
-			y: 440
+			y: 450
 		}
 	},
 	{
-		id: 'osc3__gain',
+		name: 'osc3__gain',
+		type: 'in',
 		pos: {
 			x: 130,
-			y: 440
+			y: 450
 		}
 	},
+
+	// filter ports
 	{
-		id: 'filter__freq',
+		name: 'filter__freq',
+		type: 'in',
 		pos: {
 			x: 410,
-			y: 215
+			y: 225
 		}
-	}
-];
+	},
 
-
-const modulationPortsOut = [
+	// lfo ports
 	{
-		name: 'lfo',
-		count: 6,
+		name: 'lfo__out-1',
+		type: 'out',
 		pos: {
 			x: 470,
-			y: 400,
-			distance: 30,
+			y: 410,
 		}
 	},
 	{
-		name: 'vca',
-		count: 4,
+		name: 'lfo__out-2',
+		type: 'out',
+		pos: {
+			x: 500,
+			y: 410,
+		}
+	},
+	{
+		name: 'lfo__out-3',
+		type: 'out',
+		pos: {
+			x: 530,
+			y: 410,
+		}
+	},
+	{
+		name: 'lfo__out-4',
+		type: 'out',
+		pos: {
+			x: 560,
+			y: 410,
+		}
+	},
+	{
+		id: 'lfo__out-5',
+		type: 'out',
+		pos: {
+			x: 590,
+			y: 410,
+		}
+	},
+
+	// vca ports
+	{
+		name: 'vca__out-1',
+		type: 'out',
 		pos: {
 			x: 690,
-			y: 435,
-			distance: 40,
+			y: 445,
+		}
+	},
+	{
+		name: 'vca__out-2',
+		type: 'out',
+		pos: {
+			x: 720,
+			y: 445,
+		}
+	},
+	{
+		name: 'vca__out-3',
+		type: 'out',
+		pos: {
+			x: 750,
+			y: 445,
+		}
+	},
+	{
+		name: 'vca__out-4',
+		type: 'out',
+		pos: {
+			x: 780,
+			y: 445,
+		}
+	},
+	{
+		name: 'vca__out-5',
+		type: 'out',
+		pos: {
+			x: 810,
+			y: 445,
 		}
 	}
 ];
 
 
 export {
-	interfaceSettings,
-	modulationPortsIn,
-	modulationPortsOut
+	controlItems,
+	modulationPorts
 };
