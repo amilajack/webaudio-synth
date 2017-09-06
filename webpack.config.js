@@ -55,7 +55,7 @@ module.exports = {
         inline: true,
         contentBase: './public',
         port: 7070,
-        host: 'localhost',
+        host: '0.0.0.0',
     },
 
     devtool: 'cheap-eval-source-map',

@@ -73,7 +73,6 @@ export default class Synth {
 						[note]: newVCO
 					});
 					this.VCOs[note].play(freq);
-					console.log(this);
 				}
 			},
 			// 'keyUp' event callback
@@ -91,6 +90,26 @@ export default class Synth {
 			this.store.subscribe(
 				`filter__${paramName}`,
 				() => this.VCF.set(paramName, this.store.settings[`filter__${paramName}`])
+			)
+		});
+
+
+		// creating LFO modulator
+		this.LFO = new LFO(this.context);
+		['freq', 'wavetype'].map(paramName => {
+			this.store.subscribe(
+				`lfo__${paramName}`,
+				() => this.LFO.set(paramName, this.store.settings[`lfo__${paramName}`])
+			)
+		});
+
+
+		// creating VCA (ADSR) modulator
+		this.VCA = new VCA(this.context);
+		['attack', 'decay', 'sustain', 'release'].map(paramName => {
+			this.store.subscribe(
+				`${paramName}`,
+				() => this.VCA.set(paramName, this.store.settings[`${paramName}`])
 			)
 		});
 
@@ -116,5 +135,6 @@ export default class Synth {
 		this.VCF.connect(this.context.destination);
 		this.Delay.connect(this.context.destination);
 	
+		console.log(this);
 	}
 }
