@@ -33,9 +33,9 @@ let defaultSettings = {
 
 	// Modulation
 	modulation: {
-		'lfo__out-1': 'osc2__gain',
-		'lfo__out-3': 'filter__freq',
-		'vca__out-2': 'osc1__gain'
+		'lfo__out-1': 'osc2',
+		'lfo__out-3': 'filter',
+		'vca__out-2': 'osc1'
 	}
 
 };

@@ -8,16 +8,16 @@ body
 	color: $color-primary
 	font-family: $font-family-default
 	overflow hidden
-	&:before
-		content ''
-		position absolute
-		top 0
-		left 0
-		right 0
-		bottom 0
-		margin auto
-		background-image url('/images/bg.gif')
-		transition opacity .2s
+	// &:before
+	// 	content ''
+	// 	position absolute
+	// 	top 0
+	// 	left 0
+	// 	right 0
+	// 	bottom 0
+	// 	margin auto
+	// 	background-image url('/images/bg.gif')
+	// 	transition opacity .2s
 	
 	&.on-wires-drawing
 		.knob-wrapper
@@ -187,8 +187,15 @@ canvas
 		right 0
 		margin auto
 		z-index 1
-	// border 1px solid #111
-	// pointer-events none
+	&#visual
+		position absolute
+		top 0
+		left 0
+		right 0
+		bottom 0
+		margin auto
+		z-index 0
+		pointer-events none
 
 input
 	cursor pointer

@@ -5,4 +5,3 @@ import Wires from './modules/Wires';
 
 
 const synth = new Synth();
-const wires = new Wires();

@@ -8,6 +8,7 @@ export default class Delay {
 		this.filter = this.context.createBiquadFilter();
 		this.filter.type = 'lowpass';
 		this.filter.Q.value = 5;
+
 		this.volume = this.context.createGain();
 
 		this.input = this.delay;

@@ -238,7 +238,7 @@ const controlItems = [
 const modulationPorts = [
 	// osc ports
 	{
-		name: 'osc1__gain',
+		name: 'osc1',
 		type: 'in',
 		pos: {
 			x: 30,
@@ -246,7 +246,7 @@ const modulationPorts = [
 		}
 	},
 	{
-		name: 'osc2__gain',
+		name: 'osc2',
 		type: 'in',
 		pos: {
 			x: 80,
@@ -254,7 +254,7 @@ const modulationPorts = [
 		}
 	},
 	{
-		name: 'osc3__gain',
+		name: 'osc3',
 		type: 'in',
 		pos: {
 			x: 130,
@@ -264,7 +264,7 @@ const modulationPorts = [
 
 	// filter ports
 	{
-		name: 'filter__freq',
+		name: 'filter',
 		type: 'in',
 		pos: {
 			x: 410,
@@ -306,7 +306,7 @@ const modulationPorts = [
 		}
 	},
 	{
-		id: 'lfo__out-5',
+		name: 'lfo__out-5',
 		type: 'out',
 		pos: {
 			x: 590,

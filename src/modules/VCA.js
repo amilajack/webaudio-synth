@@ -22,6 +22,5 @@ export default class VCA {
 				break;
 		}
 
-		console.log(this);
 	}
 }

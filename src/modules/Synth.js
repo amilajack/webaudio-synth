@@ -6,6 +6,8 @@ import VCA from './VCA';
 import Delay from './Delay';
 import Keyboard from './Keyboard';
 import Controls from './Controls';
+import Wires from './Wires';
+import Visual from './Visual';
 
 import { controlItems } from './_interfaceSettings';
 import { defaultSettings as settings } from './_paramSettings';
@@ -80,6 +82,7 @@ export default class Synth {
 				if (this.VCOs[note]) {
 					this.VCOs[note].stop(); // stop oscillators
 				}
+				console.log(this);
 			}
 		);
 
@@ -122,6 +125,13 @@ export default class Synth {
 				() => this.Delay.set(paramName, this.store.settings[`delay__${paramName}`])
 			)
 		});
+
+
+		// creating wires
+		this.Wires = new Wires();
+
+		// creating visualization
+		this.Visual = new Visual(this.context);
 
 	
 		this.init();
