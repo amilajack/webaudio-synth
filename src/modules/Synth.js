@@ -140,6 +140,7 @@ export default class Synth {
 	init = () => {
 
 		this.overallGain = this.context.createGain();
+		this.overallGain.gain.value = .5;
 
 		// connections
 		this.VCF.connect(this.Delay);

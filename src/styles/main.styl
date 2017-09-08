@@ -3,33 +3,17 @@
 
 
 body
-	// background-color: $color-bg
-	background-color: #111
+	background-color: #222
 	color: $color-primary
 	font-family: $font-family-default
 	overflow hidden
 	perspective 1000px
-	// &:before
-	// 	content ''
-	// 	position absolute
-	// 	top 0
-	// 	left 0
-	// 	right 0
-	// 	bottom 0
-	// 	margin auto
-	// 	background-image url('/images/bg.gif')
-	// 	transition opacity .2s
 	
 	&.on-wires-drawing
 		.knob-wrapper
 		ul
 			opacity .4
 			pointer-events none
-		
-	
-	&.playing
-		&:before
-			opacity 0
 
 
 #synth
@@ -41,14 +25,10 @@ body
 	margin auto
 	width 1100px
 	height 475px
-	// width 50vw
-	// height 55vh
-	// min-width 820px
-	// min-height 435px
 	padding 5px
 	display flex
 	justify-content flex-start
-	background-color: rgba(38, 39, 47, .75)
+	background-color: rgba(38, 39, 47, .85)
 	box-shadow: 1px 1px 0px $color-primary
 	border: 2px solid $color-primary
 	border-radius 10px
@@ -190,6 +170,9 @@ canvas
 		margin auto
 		z-index 0
 		pointer-events none
+		perspective 1000px
+		transform-style preserve-3d
+		transform rotateX(45deg) rotateY(10deg)
 		&:after
 			content ''
 			position absolute

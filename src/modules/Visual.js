@@ -1,3 +1,6 @@
+import { colors } from './_colors';
+import { getRandom, convertColor } from './_helpers';
+
 
 export default class Visual {
 	constructor(context) {
@@ -5,7 +8,7 @@ export default class Visual {
 		this.context = context;
 
 		this.analyser = this.context.createAnalyser();
-		this.analyser.fftSize = 1024;
+		this.analyser.fftSize = 512;
 
 		this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
 		
@@ -19,22 +22,20 @@ export default class Visual {
 
 		this.canvas = document.getElementById('visual');
 
-		this.canvas.width = window.innerWidth;
+		this.canvas.width  = window.innerWidth;
 		this.canvas.height = window.innerHeight;
 		this.canvas.center = {
 			x: (this.canvas.width  / 2),
 			y: (this.canvas.height / 2)
 		};
 
-		const circleRadius = 350;
+		const ctx = this.canvas.getContext('2d');
 
-		let circleAngle = [];
-	
-		const getRandom = (min = 0, max = 1) => {
-			return (Math.random() * (max - min)) + min;
-		};
+		const circleRadius = (this.canvas.height / 2.5);
 
+		let circleAngle = [];	
 
+		// create arcs angles
 		for (let i = 0; i <= this.analyser.frequencyBinCount; i++) {
 			let newCircleParams = {
 				startAngle:		getRandom(-2*Math.PI, 2*Math.PI),
@@ -43,63 +44,79 @@ export default class Visual {
 			circleAngle.push(newCircleParams);
 		};
 
+		// draw functions
+		this.canvas.drawArc = (x, y, R, startAngle, endAngle, opacity) => {
+			ctx.beginPath();
 
-		const ctx = this.canvas.getContext('2d');
+			ctx.arc(x, y, R, startAngle, endAngle);
+			ctx.lineWidth = 1;
+			ctx.strokeStyle = `rgba(${convertColor(colors.contrast).toDec()}, 
+									${opacity})`;
+			ctx.stroke();
+		};
+
+
 		const redraw = () => {
 
 			this.analyser.getByteFrequencyData(this.frequencyData);
 
+			// clear previous drawings
 			ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-			for (let i = 0; i < this.analyser.frequencyBinCount; i++) {
-				ctx.beginPath();
-				ctx.arc(
-					this.canvas.center.x,
-					this.canvas.center.y,
-					this.frequencyData[i] * 1.5,
-					circleAngle[i].startAngle,
-					circleAngle[i].endAngle
-				);
-				ctx.lineWidth = 1;
-				ctx.strokeStyle = `rgba(156, 217, 249, ${this.frequencyData[i] / 255})`; // opacity
-				ctx.stroke();
-			}
 
-			//curve
+			// curve left
 			ctx.beginPath();
-			ctx.moveTo(0, 2 * this.canvas.height / 3);
-			// var prevX = 0,
-				// prevY = 0;
-			for (let i = 1; i < this.analyser.frequencyBinCount; i++) {
+			ctx.moveTo(-1, this.canvas.height / 2);
+
+			// direction
+			let m = 1;
+
+			for (let i = 0; i < this.analyser.frequencyBinCount; i++) {
 
 				ctx.lineTo(
-					i * (this.canvas.width / this.analyser.frequencyBinCount),
-					this.canvas.height - this.frequencyData[i] * 2
+					i * (this.canvas.center.x / this.analyser.frequencyBinCount),
+					((this.canvas.height + 64) / 2) - (m * this.frequencyData[i])
 				);
-				// ctx.bezierCurveTo(prevX, prevY, i*(width/analyser.frequencyBinCount), prevY , i*(width/analyser.frequencyBinCount), height-frequencyData[i]*2)
 
-				// prevX= i*(width/analyser.frequencyBinCount);
-				// prevY= height-frequencyData[i]*2;
-
-				ctx.strokeStyle='rgba(156,217,249,'+(this.frequencyData[i]/255)+')';
+				ctx.strokeStyle = `rgba(${convertColor(colors.accent).toDec()},
+										${this.frequencyData[i] / 255})`;
 				ctx.stroke();
-			}
 
-			//curve--circles
-			for (let i = 1; i < this.analyser.frequencyBinCount; i++) {
-				ctx.beginPath();
+				// change direction
+				m *= -1;
+			};
 
-				ctx.arc(
-					i * (this.canvas.width / this.analyser.frequencyBinCount),
-					this.canvas.height - this.frequencyData[i] * 2,
-					5,
-					0,
-					2 * Math.PI
+			// curve right
+			// ctx.beginPath();
+			// ctx.moveTo(this.canvas.width, this.canvas.height / 2);
+
+			// for (let i = this.analyser.frequencyBinCount; i > 0; i--) {
+
+			// 	ctx.lineTo(
+			// 		this.canvas.width - (i * (this.canvas.center / this.analyser.frequencyBinCount)),
+			// 		((this.canvas.height + 64) / 2) - (m * this.frequencyData[i])
+			// 	);
+
+			// 	ctx.strokeStyle = `rgba(${convertColor(colors.accent).toDec()},
+			// 							${this.frequencyData[i] / 255})`;
+			// 	ctx.stroke();
+
+			// 	// change direction
+			// 	m *= -1;
+			// };
+
+
+			// create many arcs
+			for (let i = 0; i < this.analyser.frequencyBinCount; i++) {
+				this.canvas.drawArc(
+					this.canvas.center.x,
+					this.canvas.center.y,
+					circleRadius * (this.frequencyData[i] / 255),
+					circleAngle[i].startAngle,
+					circleAngle[i].endAngle,
+					this.frequencyData[i] / 255
 				);
-				ctx.lineWidth = 4;
-				ctx.stokeStyle = `rgba(156,217,249, ${this.frequencyData[i] / 255})`;
-				ctx.stroke();
-			}
+			};
 	
 			requestAnimationFrame(redraw);
 		}
