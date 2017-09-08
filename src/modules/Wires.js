@@ -5,9 +5,8 @@ import { defaultSettings } from './_paramSettings';
 
 export default class Wires {
 	constructor() {
-		this.modulationSettings = defaultSettings.modulation;
 
-		console.log(this.modulationSettings);
+		this.modulationSettings = defaultSettings.modulation;
 
 		this.init();
 	}
@@ -61,11 +60,13 @@ export default class Wires {
 		const bodyDOM = document.querySelector('body');
 		let onDrawingCurve = false; // curve drawing state
 		let highlightPortType;		// for fading port port with same type
-		let mousePos = {};
-		let startPort = {}; 
-		let endPort = {};
+		let mousePos 	= {};
+		let port 		= {};
+		let startPort 	= {}; 
+		let endPort 	= {};
 
 		let selectedPort = {};
+		let loopID;
 
 
 		// draw ports
@@ -115,6 +116,30 @@ export default class Wires {
 			return detectedPort;
 		};
 
+		const checkPort = (port) => {
+			let keys = Object.keys(this.modulationSettings);
+			switch (port.type) {
+				case 'out':
+					for (let i = 0; i < keys.length; i++) {
+						if (keys[i] === port.name) {
+							return {
+								[keys[i]]: this.modulationSettings[keys[i]]
+							};
+						};
+					};
+					break;
+				case 'in':
+					for (let i = 0; i < keys.length; i++) {
+						if (this.modulationSettings[keys[i]] === port.name) {
+							return {
+								[keys[i]]: this.modulationSettings[keys[i]]
+							};
+						};
+					};
+					break;
+			}
+		};
+
 		// mouse events
 		this.canvas.addEventListener('mousemove', event => {
 			mousePos.x = event.offsetX;
@@ -123,91 +148,62 @@ export default class Wires {
 
 		this.canvas.addEventListener('mousedown', event => {
 			
-			let port = detectPort();
+			port = detectPort();
 
 			if (port) { // if this is a port, not random place on canvas
+				redraw(true);
 				bodyDOM.classList.add('on-wires-drawing');
 				startPort = {};
-				endPort = {}; 	// clear previous
+				endPort   = {}; // clear previous
 
-				if (port.type === 'out') {
-					if (this.modulationSettings[port.name]) { // if this port in use
-						
-						startPort = modulationPorts.find(item => {
-							return item.name === this.modulationSettings[port.name]
-						});
+				let portInUse = checkPort(port);
 
-						delete this.modulationSettings[port.name]; // delete previous entry
+				if (portInUse) {
 
-					} else {
-						startPort = port
-					}
-					selectedPort = startPort;
-					onDrawingCurve = true;
-					return;
-				};
+					let key = Object.keys(portInUse)[0];
 
-				if (port.type === 'in') {
-
-					let alreadyInUse = Object.keys(this.modulationSettings)
-						.find(key => this.modulationSettings[key] === port.name);
-
-					if (alreadyInUse) {
-	
-						Object.keys(this.modulationSettings).map(key => {
-							if (this.modulationSettings[key] === port.name) {
-
-								endPort = modulationPorts.find(item => item.name === key);
-								delete this.modulationSettings[key] // delete previous entry
-
-							}
-						}); 
-		
-					} else {
-						endPort = port;
+					switch (port.type) {
+						case 'in':
+							startPort = modulationPorts.find(item => item.name === key);
+							break;
+						case 'out':
+							startPort = modulationPorts.find(item => item.name === portInUse[key]);
 					};
-				};
 
-				onDrawingCurve = true;
-				return;
-				
+					delete this.modulationSettings[key]; // delete that connection
+
+				} else {
+					startPort = modulationPorts.find(item => item.name === port.name);
+				}
+
 			};
 		});
 
 		this.canvas.addEventListener('mouseup', event => {
 
-			let port = detectPort();
+			port = detectPort();
 
 			if (port) {
 
-				if (port.type === 'out') {
-
-					if (this.modulationSettings[port.name]) {
-						endDraw();
-						return;
-					};
-					startPort = port;
-
+				if (checkPort(port)) {
+					endDraw();
+					return;
 				};
 
-				if (port.type === 'in') {
+				endPort = modulationPorts.find(item => item.name === port.name)
 
-					let alreadyInUse = Object.keys(this.modulationSettings).find(key => {
-						return this.modulationSettings[key] === port.name;
-					});
-
-					if (alreadyInUse) {
-						endDraw();
-						return;
-					};
-					endPort  = port;
-
-				};
-
-	
 				// add new wire
-				if (startPort.pos && endPort.pos) {
-					this.modulationSettings[startPort.name] = endPort.name;
+				if ( (startPort.pos && endPort.pos) && (startPort.type !== endPort.type) ) {
+	
+					switch (startPort.type) { // sort to { out: in }
+						case 'out':
+							this.modulationSettings[startPort.name] = endPort.name;
+							break;
+						case 'in':
+							this.modulationSettings[endPort.name] = startPort.name;
+							break;
+					};
+
 				};
 
 			};
@@ -218,32 +214,38 @@ export default class Wires {
 
 		const endDraw = () => {
 			onDrawingCurve = false;
+	
+			bodyDOM.classList.remove('on-wires-drawing');
+			port = {};
 			startPort = {};
 			endPort = {};
-			selectedPort = {};
-			bodyDOM.classList.remove('on-wires-drawing');
+	
+			window.cancelAnimationFrame(loopID);
+			redraw(false); // call once
 		};
 
-		const redraw = () => {
+		const redraw = (loopRedraw = false) => {
+
 			const ctx = this.canvas.getContext('2d');
 
 			// clear previous drawings
 			ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-			drawPorts(selectedPort);
+			drawPorts(startPort);
 			drawWires();
 
-			// draw new wire
-			if (onDrawingCurve) {
+			if (loopRedraw) {
+				// draw new wire
 				this.canvas.drawCurve(
 					startPort.pos ? startPort.pos : mousePos,
 					endPort.pos   ?  endPort.pos  : mousePos
 				);
-			};
-
-			window.requestAnimationFrame(redraw);
+				
+				loopID = window.requestAnimationFrame(redraw);
+			}
 		};
-		redraw();
+		redraw(); // call for first draw
+		
 
 	}
 }

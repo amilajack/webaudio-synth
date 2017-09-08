@@ -82,7 +82,6 @@ export default class Synth {
 				if (this.VCOs[note]) {
 					this.VCOs[note].stop(); // stop oscillators
 				}
-				console.log(this);
 			}
 		);
 
@@ -140,11 +139,15 @@ export default class Synth {
 
 	init = () => {
 
+		this.overallGain = this.context.createGain();
+
 		// connections
 		this.VCF.connect(this.Delay);
-		this.VCF.connect(this.context.destination);
-		this.Delay.connect(this.context.destination);
-	
+		this.VCF.connect(this.overallGain);
+		this.Delay.connect(this.overallGain);
+		this.overallGain.connect(this.Visual.input);
+		this.Visual.connect(this.context.destination);
+
 		console.log(this);
 	}
 }

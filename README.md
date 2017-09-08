@@ -15,7 +15,8 @@ Web Audio API Polyphonic synth
 - [x] Polyphony
 - [x] Delay
 - [x] VCO wavetype select list
-- [x] LFO
-- [x] Canvas wires
-- [x] ADSR
+- [ ] LFO
+- [ ] ADSR
+- [ ] Canvas wires
 - [ ] Visualization
+- [ ] MIDI

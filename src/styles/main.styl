@@ -8,6 +8,7 @@ body
 	color: $color-primary
 	font-family: $font-family-default
 	overflow hidden
+	perspective 1000px
 	// &:before
 	// 	content ''
 	// 	position absolute
@@ -34,7 +35,8 @@ body
 #synth
 	position absolute
 	top 0
-	left 10%
+	left 0
+	right 0
 	bottom 0
 	margin auto
 	width 1100px
@@ -178,15 +180,7 @@ body
 
 
 canvas
-	filter drop-shadow(0px 1px 1px #111)
 	user-select none
-	&#wires
-		position absolute
-		top 0
-		left 0
-		right 0
-		margin auto
-		z-index 1
 	&#visual
 		position absolute
 		top 0
@@ -196,6 +190,24 @@ canvas
 		margin auto
 		z-index 0
 		pointer-events none
+		&:after
+			content ''
+			position absolute
+			top 0
+			left 0
+			right 0
+			bottom 0
+			margin auto
+			
+
+	&#wires
+		position absolute
+		top 0
+		left 0
+		right 0
+		margin auto
+		z-index 1
+
 
 input
 	cursor pointer
