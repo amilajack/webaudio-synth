@@ -11,7 +11,11 @@
 </head>
 <body>
 
-	<canvas id="visual"></canvas>
+	<div id='visual'>
+		<canvas class='bottom'></canvas>
+		<canvas class='center'></canvas>
+		<canvas class='top'></canvas>
+	</div>
 
 	<div id='synth'>
 		<div class='vco module'>
@@ -73,7 +77,7 @@
 
 		<div class='lfo module'>
 			<h2>LFO</h2>
-			<div class="knob-group">
+			<div class='knob-group'>
 				<div class='knob-wrapper' data-label='freq'>
 					<input type='text' id='lfo__freq'>
 				</div>

@@ -9,9 +9,11 @@ export default class Visual {
 
 		this.analyser = this.context.createAnalyser();
 		this.analyser.fftSize = 512;
+		this.bufferLength = this.analyser.frequencyBinCount;
 
-		this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
-		
+		this.frequencyData = new Uint8Array(this.bufferLength);
+		this.timeDomainData = new Uint8Array(this.bufferLength)
+
 		this.input = this.analyser;
 		this.output = this.analyser;
 
@@ -20,62 +22,111 @@ export default class Visual {
 
 	init = () => {
 
-		this.canvas = document.getElementById('visual');
-
-		this.canvas.width  = window.innerWidth;
-		this.canvas.height = window.innerHeight;
-		this.canvas.center = {
-			x: (this.canvas.width  / 2),
-			y: (this.canvas.height / 2)
+		const WIDTH = window.innerWidth;
+		const HEIGHT = window.innerHeight;
+		const CENTER = {
+			x: WIDTH / 2,
+			y: HEIGHT / 2
 		};
 
-		const ctx = this.canvas.getContext('2d');
+		const canvasBottom = document.querySelector('#visual .bottom');
+		const canvasCenter = document.querySelector('#visual .center');
+		const canvasTop = document.querySelector('#visual .top');
 
-		const circleRadius = (this.canvas.height / 2.5);
+		canvasBottom.width = canvasCenter.width = canvasTop.width = WIDTH;
+		canvasCenter.height = canvasBottom.height = HEIGHT;
+		canvasTop.height = HEIGHT / 2;
 
-		let circleAngle = [];	
+
+		const canvasBottomContext = canvasBottom.getContext('2d');
+		const canvasCenterContext = canvasCenter.getContext('2d');
+		const canvasTopContext = canvasTop.getContext('2d');
+
+
+		const circleRadius = (HEIGHT);
 
 		// create arcs angles
+		let circleAngle = [];
+
 		for (let i = 0; i <= this.analyser.frequencyBinCount; i++) {
 			let newCircleParams = {
-				startAngle:		getRandom(-2*Math.PI, 2*Math.PI),
-				endAngle:		getRandom(-2*Math.PI, 2*Math.PI)
+				startAngle: getRandom(-2 * Math.PI, 2 * Math.PI),
+				endAngle: getRandom(-2 * Math.PI, 2 * Math.PI)
 			}
 			circleAngle.push(newCircleParams);
 		};
 
+
 		// draw functions
-		this.canvas.drawArc = (x, y, R, startAngle, endAngle, opacity) => {
+		const drawArcs = ctx => {
+
+			if (!ctx) return;
+
+			// create many arcs
+			for (let i = 0; i < this.bufferLength; i++) {
+
+				ctx.beginPath();
+				ctx.arc(
+					CENTER.x,
+					CENTER.y,
+					circleRadius * (this.frequencyData[i] / 255),
+					circleAngle[i].startAngle,
+					circleAngle[i].endAngle
+				);
+				ctx.lineWidth = 1;
+				ctx.strokeStyle = `rgba(${convertColor(colors.contrast).toDec()},
+										${this.frequencyData[i] / 255})`;
+				ctx.stroke();
+
+			};
+
+		};
+
+
+		const drawCurve = ctx => {
+
 			ctx.beginPath();
 
-			ctx.arc(x, y, R, startAngle, endAngle);
 			ctx.lineWidth = 1;
-			ctx.strokeStyle = `rgba(${convertColor(colors.contrast).toDec()}, 
-									${opacity})`;
+			ctx.strokeStyle = `${colors.accent}`;
+
+			let sliceWidth = WIDTH / this.bufferLength;
+			let x = 0;
+			let y = 0;
+
+			for (let i = 0; i < this.bufferLength; i++) {
+
+				y = (HEIGHT / 8) * (this.timeDomainData[i] / 255) + 127 + 16;
+
+				if (i === 0) {
+					ctx.moveTo(x, y);
+				} else {
+					ctx.lineTo(x, y);
+				};
+
+				x += sliceWidth;
+			};
+
+			ctx.globalAlpha = .5;
 			ctx.stroke();
 		};
 
 
-		const redraw = () => {
+		const drawGraph = ctx => {
 
-			this.analyser.getByteFrequencyData(this.frequencyData);
+			if (!ctx) return;
 
-			// clear previous drawings
-			ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-
-			// curve left
 			ctx.beginPath();
-			ctx.moveTo(-1, this.canvas.height / 2);
+			ctx.moveTo(WIDTH, CENTER.y);
 
 			// direction
 			let m = 1;
 
-			for (let i = 0; i < this.analyser.frequencyBinCount; i++) {
+			for (let i = 0; i < this.bufferLength; i++) {
 
 				ctx.lineTo(
-					i * (this.canvas.center.x / this.analyser.frequencyBinCount),
-					((this.canvas.height + 64) / 2) - (m * this.frequencyData[i])
+					i * (WIDTH / this.bufferLength),
+					(HEIGHT / 2 - (m * this.frequencyData[i]))
 				);
 
 				ctx.strokeStyle = `rgba(${convertColor(colors.accent).toDec()},
@@ -86,38 +137,24 @@ export default class Visual {
 				m *= -1;
 			};
 
-			// curve right
-			// ctx.beginPath();
-			// ctx.moveTo(this.canvas.width, this.canvas.height / 2);
-
-			// for (let i = this.analyser.frequencyBinCount; i > 0; i--) {
-
-			// 	ctx.lineTo(
-			// 		this.canvas.width - (i * (this.canvas.center / this.analyser.frequencyBinCount)),
-			// 		((this.canvas.height + 64) / 2) - (m * this.frequencyData[i])
-			// 	);
-
-			// 	ctx.strokeStyle = `rgba(${convertColor(colors.accent).toDec()},
-			// 							${this.frequencyData[i] / 255})`;
-			// 	ctx.stroke();
-
-			// 	// change direction
-			// 	m *= -1;
-			// };
+		};
 
 
-			// create many arcs
-			for (let i = 0; i < this.analyser.frequencyBinCount; i++) {
-				this.canvas.drawArc(
-					this.canvas.center.x,
-					this.canvas.center.y,
-					circleRadius * (this.frequencyData[i] / 255),
-					circleAngle[i].startAngle,
-					circleAngle[i].endAngle,
-					this.frequencyData[i] / 255
-				);
-			};
-	
+		const redraw = () => {
+
+			this.analyser.getByteFrequencyData(this.frequencyData);
+			this.analyser.getByteTimeDomainData(this.timeDomainData);
+
+			// clear previous drawings
+			canvasBottomContext.clearRect(0, 0, WIDTH, canvasBottom.height);
+			canvasCenterContext.clearRect(0, 0, WIDTH, canvasCenter.height);
+			canvasTopContext.clearRect(0, 0, WIDTH, canvasTop.width)
+
+			// drawCurve(canvasBottomContext);
+			drawArcs(canvasCenterContext);
+			drawCurve(canvasTopContext);
+			drawGraph(canvasBottomContext);
+
 			requestAnimationFrame(redraw);
 		}
 		redraw();

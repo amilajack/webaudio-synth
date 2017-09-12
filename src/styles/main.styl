@@ -19,8 +19,8 @@ body
 #synth
 	position absolute
 	top 0
-	left 0
-	right 0
+	left 5vw
+	// right 0
 	bottom 0
 	margin auto
 	width 1100px
@@ -160,29 +160,7 @@ body
 
 
 canvas
-	user-select none
-	&#visual
-		position absolute
-		top 0
-		left 0
-		right 0
-		bottom 0
-		margin auto
-		z-index 0
-		pointer-events none
-		perspective 1000px
-		transform-style preserve-3d
-		transform rotateX(45deg) rotateY(10deg)
-		&:after
-			content ''
-			position absolute
-			top 0
-			left 0
-			right 0
-			bottom 0
-			margin auto
-			
-
+	user-select none		
 	&#wires
 		position absolute
 		top 0
@@ -190,6 +168,26 @@ canvas
 		right 0
 		margin auto
 		z-index 1
+
+
+// visualization canvases
+#visual
+	&>*
+		position absolute
+		// left 0
+		right 0
+		margin auto
+	canvas
+		&.bottom
+			right 0
+		&.center
+			top 0
+			right -50%
+			left unset
+			// transform rotateX(45deg)
+		&.top
+			top 0
+			bottom 0
 
 
 input
