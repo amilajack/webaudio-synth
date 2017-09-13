@@ -2,9 +2,10 @@ import { defaultSettings as settings } from './_paramSettings';
 
 import Knob from './Knob';
 import List from './List';
+import Input from './Input';
 
 
-export default class Controls {
+export default class ControlItem {
 	constructor(controlsDescription, changeStoreParam) {
 
 		this.controlsDescription = controlsDescription;
@@ -35,6 +36,15 @@ export default class Controls {
 					this.changeStoreParam
 				));
 				break;
+			case 'input':
+				this.controlsItems.push(new Input(
+					ctrl.id,
+					settings[ctrl.id],
+					this.changeStoreParam
+				));
+				break;
 		};
+
+		console.log(this);
 	}
 }

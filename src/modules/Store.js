@@ -37,5 +37,7 @@ export default class Store {
 		this.settings[paramName] = value;
 
 		this.broadcast(paramName);
+
+		console.log(this.settings);
 	}
 }

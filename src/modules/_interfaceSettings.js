@@ -26,15 +26,19 @@ const controlItems = [
 		options: {
 			width: knobSize.small,
 			height: knobSize.small,
-			min: -2,
-			max: 2,
-			step: .5,
+			min: -100,
+			max: 100,
+			step: 1,
 			thickness: .3
 		}
 	},
 	{
 		type: 'list',
 		id: 'osc1__wavetype'
+	},
+	{
+		type: 'input',
+		id: 'osc1__offset'
 	},
 	{
 		type: 'knob',
@@ -53,15 +57,19 @@ const controlItems = [
 		options: {
 			width: knobSize.small,
 			height: knobSize.small,
-			min: -2,
-			max: 2,
-			step: .5,
+			min: -100,
+			max: 100,
+			step: 1,
 			thickness: .3
 		}
 	},
 	{
 		type: 'list',
 		id: 'osc2__wavetype'
+	},
+	{
+		type: 'input',
+		id: 'osc2__offset'
 	},
 	{
 		type: 'knob',
@@ -80,15 +88,19 @@ const controlItems = [
 		options: {
 			width: knobSize.small,
 			height: knobSize.small,
-			min: -2,
-			max: 2,
-			step: .5,
+			min: -100,
+			max: 100,
+			step: 1,
 			thickness: .3
 		}
 	},
 	{
 		type: 'list',
 		id: 'osc3__wavetype'
+	},
+	{
+		type: 'input',
+		id: 'osc3__offset'
 	},
 
 	// VCF

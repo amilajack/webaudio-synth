@@ -8,7 +8,7 @@ export default class Keyboard {
 			id: 'keyboard',
 			width: 600,
 			height: 150,
-			startNote: 'C4',
+			startNote: 'C3',
 			octaves: 2
 		};
 

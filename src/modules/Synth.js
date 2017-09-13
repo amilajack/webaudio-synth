@@ -5,7 +5,7 @@ import LFO from './LFO';
 import VCA from './VCA';
 import Delay from './Delay';
 import Keyboard from './Keyboard';
-import Controls from './Controls';
+import ControlItem from './ControlItem';
 import Wires from './Wires';
 import Visual from './Visual';
 
@@ -33,7 +33,7 @@ export default class Synth {
 
 		controlItems.map(item => {
 			this.controls.push(
-				new Controls(
+				new ControlItem(
 					item,
 					this.store.changeParam,
 					this.store.subscribe // for wavetype list select highlighting

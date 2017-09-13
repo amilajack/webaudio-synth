@@ -4,12 +4,17 @@ let defaultSettings = {
 	'osc1__gain': 	0,
 	'osc1__detune': 0,
 	'osc1__wavetype': 'sine',
+	'osc1__offset':	0,
+
 	'osc2__gain': 	.95,
 	'osc2__detune': 0,
 	'osc2__wavetype': 'sawtooth',
+	'osc2__offset':	0,
+
 	'osc3__gain': 	0,
 	'osc3__detune': 0,
 	'osc3__wavetype': 'square',
+	'osc3__offset':	0,
 
 	// VCF
 	'filter__freq': 3500,

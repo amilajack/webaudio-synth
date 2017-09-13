@@ -9,6 +9,8 @@ export default class Visual {
 
 		this.analyser = this.context.createAnalyser();
 		this.analyser.fftSize = 512;
+		this.analyser.smoothingTimeConstant = .9;
+		this.analyser.maxDecibels = 0;
 		this.bufferLength = this.analyser.frequencyBinCount;
 
 		this.frequencyData = new Uint8Array(this.bufferLength);
@@ -22,25 +24,34 @@ export default class Visual {
 
 	init = () => {
 
-		const WIDTH = window.innerWidth;
-		const HEIGHT = window.innerHeight;
-		const CENTER = {
-			x: WIDTH / 2,
-			y: HEIGHT / 2
+		this.canvas = document.getElementById('visual');
+
+		const ctx = this.canvas.getContext('2d');
+
+		let WIDTH;
+		let HEIGHT;
+		let CENTER = {};
+
+		let sliceWidth;
+		let sliceHeight;
+
+		const getViewportSize = () => {
+			WIDTH = window.innerWidth;
+			HEIGHT = window.innerHeight;
+			CENTER = {
+				x: WIDTH / 2,
+				y: HEIGHT / 2
+			};
+
+			this.canvas.width = WIDTH;
+			this.canvas.height = HEIGHT;
+
+			sliceWidth = WIDTH / this.bufferLength;
+			sliceHeight = HEIGHT / 8;
 		};
+		getViewportSize();
 
-		const canvasBottom = document.querySelector('#visual .bottom');
-		const canvasCenter = document.querySelector('#visual .center');
-		const canvasTop = document.querySelector('#visual .top');
-
-		canvasBottom.width = canvasCenter.width = canvasTop.width = WIDTH;
-		canvasCenter.height = canvasBottom.height = HEIGHT;
-		canvasTop.height = HEIGHT / 2;
-
-
-		const canvasBottomContext = canvasBottom.getContext('2d');
-		const canvasCenterContext = canvasCenter.getContext('2d');
-		const canvasTopContext = canvasTop.getContext('2d');
+		window.addEventListener('resize', () => getViewportSize());
 
 
 		const circleRadius = (HEIGHT);
@@ -58,16 +69,14 @@ export default class Visual {
 
 
 		// draw functions
-		const drawArcs = ctx => {
-
-			if (!ctx) return;
+		const drawArcs = () => {
 
 			// create many arcs
-			for (let i = 0; i < this.bufferLength; i++) {
+			for (let i = 0; i < this.bufferLength; i+=2) {
 
 				ctx.beginPath();
 				ctx.arc(
-					CENTER.x,
+					WIDTH,
 					CENTER.y,
 					circleRadius * (this.frequencyData[i] / 255),
 					circleAngle[i].startAngle,
@@ -82,24 +91,22 @@ export default class Visual {
 
 		};
 
-
-		const drawCurve = ctx => {
+		const drawCurve = () => {
 
 			ctx.beginPath();
 
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = `${colors.accent}`;
 
-			let sliceWidth = WIDTH / this.bufferLength;
 			let x = 0;
 			let y = 0;
 
 			for (let i = 0; i < this.bufferLength; i++) {
 
-				y = (HEIGHT / 8) * (this.timeDomainData[i] / 255) + 127 + 16;
+				y = sliceHeight * (this.timeDomainData[i] / 255) + CENTER.y - 50;
 
 				if (i === 0) {
-					ctx.moveTo(x, y);
+					ctx.moveTo(0, CENTER.y);
 				} else {
 					ctx.lineTo(x, y);
 				};
@@ -107,26 +114,24 @@ export default class Visual {
 				x += sliceWidth;
 			};
 
-			ctx.globalAlpha = .5;
+			// ctx.globalAlpha = .5;
 			ctx.stroke();
 		};
 
 
-		const drawGraph = ctx => {
-
-			if (!ctx) return;
-
-			ctx.beginPath();
-			ctx.moveTo(WIDTH, CENTER.y);
+		const drawBars = () => {
 
 			// direction
 			let m = 1;
 
 			for (let i = 0; i < this.bufferLength; i++) {
 
+				ctx.beginPath();
+				ctx.moveTo(WIDTH, (i * m) + CENTER.y);
+
 				ctx.lineTo(
-					i * (WIDTH / this.bufferLength),
-					(HEIGHT / 2 - (m * this.frequencyData[i]))
+					WIDTH - this.frequencyData[i],
+					(i * m) + CENTER.y
 				);
 
 				ctx.strokeStyle = `rgba(${convertColor(colors.accent).toDec()},
@@ -140,20 +145,19 @@ export default class Visual {
 		};
 
 
+		let once = 0;
+
 		const redraw = () => {
 
 			this.analyser.getByteFrequencyData(this.frequencyData);
 			this.analyser.getByteTimeDomainData(this.timeDomainData);
 
 			// clear previous drawings
-			canvasBottomContext.clearRect(0, 0, WIDTH, canvasBottom.height);
-			canvasCenterContext.clearRect(0, 0, WIDTH, canvasCenter.height);
-			canvasTopContext.clearRect(0, 0, WIDTH, canvasTop.width)
+			ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-			// drawCurve(canvasBottomContext);
-			drawArcs(canvasCenterContext);
-			drawCurve(canvasTopContext);
-			drawGraph(canvasBottomContext);
+			drawArcs();
+			drawCurve();
+			drawBars();
 
 			requestAnimationFrame(redraw);
 		}

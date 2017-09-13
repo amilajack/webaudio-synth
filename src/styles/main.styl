@@ -10,6 +10,7 @@ body
 	perspective 1000px
 	
 	&.on-wires-drawing
+		[id$='offset']
 		.knob-wrapper
 		ul
 			opacity .4
@@ -122,8 +123,37 @@ body
 			position relative
 			display flex
 			justify-content center
+			
+			// osc step offset
+			[id$='offset']
+				position relative
+				display flex
+				flex-direction column
+				justify-content center
+				transition opacity .2s
+				z-index 2
+				input
+					padding 5px 0
+				button
+					width 100%
+					height 20px
+					padding 0
+					background-color transparent
+					background-image url('/images/arrow.svg')
+					background-position center
+					background-repeat no-repeat
+					background-size cover
+					border none
+					cursor pointer
+					opacity .65
+					transition opacity .1s
+					&:hover
+						opacity 1
+					&.step-up
+						transform rotate(180deg)
+
 			.knob-wrapper
-				flex 1 0 50%
+				flex 1 0 45%
 				align-self flex-end
 				user-select none
 
@@ -131,8 +161,8 @@ body
 			ul
 				position absolute
 				top 10px
-				right -10px
-				width 50%
+				right -5px
+				width 40%
 				height 25px
 				display flex
 				z-index 2
@@ -160,44 +190,44 @@ body
 
 
 canvas
-	user-select none		
+	user-select none
 	&#wires
+	&#visual
 		position absolute
 		top 0
 		left 0
 		right 0
 		margin auto
-		z-index 1
-
-
-// visualization canvases
-#visual
-	&>*
-		position absolute
-		// left 0
-		right 0
-		margin auto
-	canvas
-		&.bottom
-			right 0
-		&.center
-			top 0
-			right -50%
-			left unset
-			// transform rotateX(45deg)
-		&.top
-			top 0
-			bottom 0
 
 
 input
 	cursor pointer
-	user-select none
+	font-family: $font-family-default
+	color: $color-primary
+	border none
+	background-color transparent
+	text-align center
+	&[type='number']
+		-moz-appearance textfield
+		&::-webkit-inner-spin-button
+			-webkit-appearance none
+			-moz-appearance none
+			appearance none
 
+button
+input
+	&:focus
+		outline none
+		box-shadow: 0px 0px 2px $color-contrast
+		border-radius 2px
+
+
+//
 #keyboard
 	display none
 
 
+// animation
 @keyframes fade-in
 	0%
 		opacity 0

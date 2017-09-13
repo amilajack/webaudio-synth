@@ -11,17 +11,18 @@
 </head>
 <body>
 
-	<div id='visual'>
-		<canvas class='bottom'></canvas>
-		<canvas class='center'></canvas>
-		<canvas class='top'></canvas>
-	</div>
+	<canvas id='visual'></canvas>
 
 	<div id='synth'>
 		<div class='vco module'>
 			<h2>VCO</h2>
 
 			<div class='knob-group' id='osc1'>
+				<div id='osc1__offset'>
+					<button class='step-up'></button>
+					<input type='number' min='-12' max='12' value='0'>
+					<button class='step-down'></button>
+				</div>
 				<div class='knob-wrapper' data-label='gain'>
 					<input type='text' id='osc1__gain'>
 				</div>
@@ -36,6 +37,11 @@
 			</div>
 
 			<div class='knob-group' id='osc2'>
+				<div id='osc2__offset'>
+					<button class='step-up'></button>
+					<input type='number' min='-12' max='12' value='0'>
+					<button class='step-down'></button>
+				</div>
 				<div class='knob-wrapper' data-label='gain'>
 					<input type='text' id='osc2__gain'>
 				</div>
@@ -50,6 +56,11 @@
 			</div>
 
 			<div class='knob-group' id='osc3'>
+				<div id='osc3__offset'>
+					<button class='step-up'></button>
+					<input type='number' min='-12' max='12' value='0'>
+					<button class='step-down'></button>
+				</div>
 				<div class='knob-wrapper' data-label='gain'>
 					<input type='text' id='osc3__gain'>
 				</div>
