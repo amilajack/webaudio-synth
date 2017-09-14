@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<canvas id='visual'></canvas>
+	<canvas id='visual' moz-opaque></canvas>
 
 	<div id='synth'>
 		<div class='vco module'>
@@ -20,7 +20,7 @@
 			<div class='knob-group' id='osc1'>
 				<div id='osc1__offset'>
 					<button class='step-up'></button>
-					<input type='number' min='-12' max='12' value='0'>
+					<input type='number' min='-12' max='12' value='0' readonly tabindex='-1'>
 					<button class='step-down'></button>
 				</div>
 				<div class='knob-wrapper' data-label='gain'>
@@ -39,7 +39,7 @@
 			<div class='knob-group' id='osc2'>
 				<div id='osc2__offset'>
 					<button class='step-up'></button>
-					<input type='number' min='-12' max='12' value='0'>
+					<input type='number' min='-12' max='12' value='0' readonly tabindex='-1'>
 					<button class='step-down'></button>
 				</div>
 				<div class='knob-wrapper' data-label='gain'>
@@ -58,7 +58,7 @@
 			<div class='knob-group' id='osc3'>
 				<div id='osc3__offset'>
 					<button class='step-up'></button>
-					<input type='number' min='-12' max='12' value='0'>
+					<input type='number' min='-12' max='12' value='0' readonly tabindex='-1'>
 					<button class='step-down'></button>
 				</div>
 				<div class='knob-wrapper' data-label='gain'>
@@ -87,8 +87,11 @@
 		</div>
 
 		<div class='lfo module'>
-			<h2>LFO</h2>
-			<div class='knob-group'>
+			<h2>LFO</h2>	
+			<div class='knob-wrapper' data-label='amount'>
+				<input type='text' id='lfo__amount'>
+			</div>
+			<div class="knob-group">
 				<div class='knob-wrapper' data-label='freq'>
 					<input type='text' id='lfo__freq'>
 				</div>
@@ -134,7 +137,7 @@
 			</div>
 		</div>
 
-		<canvas id='wires' width='1100' height='725'></canvas>
+		<canvas id='wires' width='1120' height='725'></canvas>
 
 	</div>
 

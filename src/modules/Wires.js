@@ -4,9 +4,10 @@ import { defaultSettings } from './_paramSettings';
 
 
 export default class Wires {
-	constructor() {
+	constructor(defaultSettings, changeStoreParam) {
 
-		this.modulationSettings = defaultSettings.modulation;
+		this.modulationSettings = defaultSettings;
+		this.changeStoreParam = changeStoreParam;
 
 		this.init();
 	}
@@ -171,6 +172,7 @@ export default class Wires {
 					};
 
 					delete this.modulationSettings[key]; // delete that connection
+					this.changeStoreParam('modulation', this.modulationSettings); // update in store
 
 				} else {
 					startPort = modulationPorts.find(item => item.name === port.name);
@@ -203,6 +205,8 @@ export default class Wires {
 							this.modulationSettings[endPort.name] = startPort.name;
 							break;
 					};
+
+					this.changeStoreParam('modulation', this.modulationSettings); // update store
 
 				};
 

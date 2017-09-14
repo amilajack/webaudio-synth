@@ -11,6 +11,7 @@ import Visual from './Visual';
 
 import { controlItems } from './_interfaceSettings';
 import { defaultSettings as settings } from './_paramSettings';
+import { notes } from './_notes';
 
 
 export default class Synth {
@@ -42,50 +43,6 @@ export default class Synth {
 		});
 
 
-		this.VCOs = {};
-
-		// creating keyboard and bindings
-		this.keyboard = new Keyboard(
-			{
-				id: 'keyboard'
-			},
-			// 'keyPressed' event callback
-			(note, freq) => {
-				if (this.VCOs[note]) {
-					this.VCOs[note].play(freq);
-				} else {
-					let newVCO = new VCO(this.context, note, this.VCF);
-
-					// creating osclillators for every key(note)
-					// and binding it with settings store
-					Object.keys(newVCO.oscillators).forEach(oscName => {
-						['gain', 'detune', 'wavetype'].forEach(paramName => {
-							this.store.subscribe(
-								`${oscName}__${paramName}`,
-								() => newVCO.set(
-									oscName,
-									paramName,
-									this.store.settings[`${oscName}__${paramName}`]
-								)
-							)
-						});
-					});
-
-					this.VCOs = Object.assign({}, this.VCOs, {
-						[note]: newVCO
-					});
-					this.VCOs[note].play(freq);
-				}
-			},
-			// 'keyUp' event callback
-			(note, freq) => {
-				if (this.VCOs[note]) {
-					this.VCOs[note].stop(); // stop oscillators
-				}
-			}
-		);
-
-
 		// creating filter 
 		this.VCF = new VCF(this.context);
 		['freq', 'qual'].map(paramName => {
@@ -96,14 +53,58 @@ export default class Synth {
 		});
 
 
+		this.VCOs = {};
+		notes.map(note => {
+
+			let newVCO = new VCO(this.context, note, this.VCF);
+			
+			// creating osclillators for every key(note)
+			// and binding it with settings store
+			Object.keys(newVCO.oscillators).forEach(oscName => {
+				['gain', 'detune', 'wavetype', 'offset'].forEach(paramName => {
+					this.store.subscribe(
+						`${oscName}__${paramName}`,
+						() => newVCO.set(
+							oscName,
+							paramName,
+							this.store.settings[`${oscName}__${paramName}`]
+						)
+					)
+				});
+			});
+
+			this.VCOs = Object.assign({}, this.VCOs, {
+				[note]: newVCO
+			});
+		});
+
+		// creating keyboard and bindings
+		this.keyboard = new Keyboard(
+			{ id: 'keyboard', startNote: 'C3' },
+	
+			(note, freq) => this.VCOs[note].play(freq), // 'keyPressed' event callback
+			
+			(note, freq) => this.VCOs[note].stop() // 'keyUp' event callback -> stop oscillators
+		);
+
+
 		// creating LFO modulator
-		this.LFO = new LFO(this.context);
-		['freq', 'wavetype'].map(paramName => {
+		this.LFO = new LFO(
+			this.context,
+			{ VCOs: this.VCOs, VCF: this.VCF } // objects that will be modulated
+		);
+		['amount', 'freq', 'wavetype'].map(paramName => {
 			this.store.subscribe(
 				`lfo__${paramName}`,
 				() => this.LFO.set(paramName, this.store.settings[`lfo__${paramName}`])
 			)
 		});
+		// subscribe LFO for wires connection changes
+		this.store.subscribe(
+			'modulation',
+			() => this.LFO.set('modulation', this.store.settings['modulation'])
+		);
+
 
 
 		// creating VCA (ADSR) modulator
@@ -127,7 +128,11 @@ export default class Synth {
 
 
 		// creating wires
-		this.Wires = new Wires();
+		this.Wires = new Wires(
+			this.store.settings.modulation, // default params
+			this.store.changeParam
+		);
+
 
 		// creating visualization
 		this.Visual = new Visual(this.context);

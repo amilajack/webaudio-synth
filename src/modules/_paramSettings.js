@@ -21,6 +21,7 @@ let defaultSettings = {
 	'filter__qual': 4,
 
 	// LFO
+	'lfo__amount': .15,
 	'lfo__freq': 2,
 	'lfo__wavetype': 'sine',
 

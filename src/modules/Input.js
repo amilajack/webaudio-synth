@@ -7,6 +7,8 @@ export default class Input {
 		this.callback = callback;
 
 		this.inputDOM = document.querySelector(`#${this.id} input`);
+
+
 		this.min = this.inputDOM.getAttribute('min') || -12;
 		this.max = this.inputDOM.getAttribute('max') || 12;
 
@@ -44,7 +46,8 @@ export default class Input {
 	updateDOM = value => {
 
 		this.callback(this.id, this.value);
-
+		
 		this.inputDOM.value = this.value;
+
 	};
 }

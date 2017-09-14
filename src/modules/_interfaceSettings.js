@@ -108,8 +108,8 @@ const controlItems = [
 		type: 'knob',
 		id: 'filter__freq',
 		options: {
-			min: 30,
-			max: 6000,
+			min: 16,
+			max: 7902,
 			width: knobSize.big,
 			height: knobSize.big,
 			displayInput: true
@@ -131,11 +131,21 @@ const controlItems = [
 	// LFO
 	{
 		type: 'knob',
+		id: 'lfo__amount',
+		options: {
+			min: 0,
+			max: 1,
+			step: .01,
+			width: knobSize.medium,
+			height: knobSize.medium
+		}
+	},
+	{
+		type: 'knob',
 		id: 'lfo__freq',
 		options: {
-			min: .25,
+			min: 0,
 			max: 200,
-			step: .05,
 			width: knobSize.big,
 			height: knobSize.big,
 			displayInput: true,
@@ -279,7 +289,7 @@ const modulationPorts = [
 		name: 'filter',
 		type: 'in',
 		pos: {
-			x: 410,
+			x: 420,
 			y: 225
 		}
 	},
@@ -289,40 +299,40 @@ const modulationPorts = [
 		name: 'lfo__out-1',
 		type: 'out',
 		pos: {
-			x: 470,
-			y: 410,
+			x: 500,
+			y: 445,
 		}
 	},
 	{
 		name: 'lfo__out-2',
 		type: 'out',
 		pos: {
-			x: 500,
-			y: 410,
+			x: 530,
+			y: 445,
 		}
 	},
 	{
 		name: 'lfo__out-3',
 		type: 'out',
 		pos: {
-			x: 530,
-			y: 410,
+			x: 560,
+			y: 445,
 		}
 	},
 	{
 		name: 'lfo__out-4',
 		type: 'out',
 		pos: {
-			x: 560,
-			y: 410,
+			x: 590,
+			y: 445,
 		}
 	},
 	{
 		name: 'lfo__out-5',
 		type: 'out',
 		pos: {
-			x: 590,
-			y: 410,
+			x: 620,
+			y: 445,
 		}
 	},
 
@@ -331,7 +341,7 @@ const modulationPorts = [
 		name: 'vca__out-1',
 		type: 'out',
 		pos: {
-			x: 690,
+			x: 700,
 			y: 445,
 		}
 	},
@@ -339,7 +349,7 @@ const modulationPorts = [
 		name: 'vca__out-2',
 		type: 'out',
 		pos: {
-			x: 720,
+			x: 730,
 			y: 445,
 		}
 	},
@@ -347,7 +357,7 @@ const modulationPorts = [
 		name: 'vca__out-3',
 		type: 'out',
 		pos: {
-			x: 750,
+			x: 760,
 			y: 445,
 		}
 	},
@@ -355,7 +365,7 @@ const modulationPorts = [
 		name: 'vca__out-4',
 		type: 'out',
 		pos: {
-			x: 780,
+			x: 790,
 			y: 445,
 		}
 	},
@@ -363,7 +373,7 @@ const modulationPorts = [
 		name: 'vca__out-5',
 		type: 'out',
 		pos: {
-			x: 810,
+			x: 820,
 			y: 445,
 		}
 	}

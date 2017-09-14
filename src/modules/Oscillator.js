@@ -9,6 +9,9 @@ export default class Oscillator {
 		this.osc = this.context.createOscillator();
 		this.osc.start();
 
+		this.modulated = this.context.createGain();
+		this.modulated.gain.value = 1;
+
 		this.volume = this.context.createGain();
 
 		this.gate = this.context.createGain();
@@ -17,7 +20,13 @@ export default class Oscillator {
 
 		this.input = this.osc;
 		this.osc.connect(this.volume);
-		this.output = this.volume.connect(this.gate);
+		this.volume.connect(this.modulated);
+		this.modulated.connect(this.gate);
+		this.output = this.gate;
+
+
+		this.detune = 0;
+		this.offset = 0;
 	}
 
 	setFrequency = freq => {
@@ -28,11 +37,18 @@ export default class Oscillator {
 
 	setGain = value => this.volume.gain.value = value;
 
+	setWavetype = type => this.osc.type = type;
+
 	setDetune = value => {
-		this.osc.detune.setValueAtTime(value, this.context.currentTime);
+		this.detune = value;
+		this.osc.detune.setValueAtTime((this.offset + this.detune), this.context.currentTime);
 	}
 
-	setWavetype = type => this.osc.type = type;
+	setOffset = value => {
+		this.offset = value * 100;
+		this.osc.detune.setValueAtTime((this.offset + this.detune), this.context.currentTime);
+	}
+		
 
 	connect = node => {
 		if (node.hasOwnProperty('input')) {

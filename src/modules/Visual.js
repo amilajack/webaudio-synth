@@ -47,9 +47,14 @@ export default class Visual {
 			this.canvas.height = HEIGHT;
 
 			sliceWidth = WIDTH / this.bufferLength;
-			sliceHeight = HEIGHT / 8;
+			sliceHeight = ~~(HEIGHT / 8);
 		};
 		getViewportSize();
+
+		this.colors = {
+			accent: convertColor(colors.accent).toDec(),
+			contrast: convertColor(colors.contrast).toDec()
+		};
 
 		window.addEventListener('resize', () => getViewportSize());
 
@@ -78,13 +83,14 @@ export default class Visual {
 				ctx.arc(
 					WIDTH,
 					CENTER.y,
-					circleRadius * (this.frequencyData[i] / 255),
+					~~(circleRadius * (this.frequencyData[i] / 255)),
 					circleAngle[i].startAngle,
 					circleAngle[i].endAngle
 				);
 				ctx.lineWidth = 1;
-				ctx.strokeStyle = `rgba(${convertColor(colors.contrast).toDec()},
+				ctx.strokeStyle = `rgba(${this.colors.contrast}, 
 										${this.frequencyData[i] / 255})`;
+										
 				ctx.stroke();
 
 			};
@@ -103,19 +109,24 @@ export default class Visual {
 
 			for (let i = 0; i < this.bufferLength; i++) {
 
-				y = sliceHeight * (this.timeDomainData[i] / 255) + CENTER.y - 50;
+				y = ~~(sliceHeight * (this.timeDomainData[i] / 255) + CENTER.y - 50);
 
 				if (i === 0) {
 					ctx.moveTo(0, CENTER.y);
-				} else {
+
+				} else if (i === (this.bufferLength - 1)) {
+					ctx.moveTo(WIDTH, CENTER.y);
+					ctx.stroke();
+				}
+				else {
 					ctx.lineTo(x, y);
 				};
 
 				x += sliceWidth;
 			};
-
+			
 			// ctx.globalAlpha = .5;
-			ctx.stroke();
+			
 		};
 
 
@@ -134,7 +145,7 @@ export default class Visual {
 					(i * m) + CENTER.y
 				);
 
-				ctx.strokeStyle = `rgba(${convertColor(colors.accent).toDec()},
+				ctx.strokeStyle = `rgba(${this.colors.accent},
 										${this.frequencyData[i] / 255})`;
 				ctx.stroke();
 

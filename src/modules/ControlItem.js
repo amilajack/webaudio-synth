@@ -45,6 +45,5 @@ export default class ControlItem {
 				break;
 		};
 
-		console.log(this);
 	}
 }

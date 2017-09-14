@@ -52,6 +52,8 @@ export default class VCO {
 			case 'wavetype':
 				this.oscillators[oscName].setWavetype(value);
 				break;
+			case 'offset':
+				this.oscillators[oscName].setOffset(value);
 		}
 
 	}

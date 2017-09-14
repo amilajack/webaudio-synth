@@ -10,6 +10,11 @@ export default class VCF {
 
 		this.input = this.filter;
 		this.output = this.filter;
+
+		this.modulated = this.context.createGain();
+		// this.modulated.gain.value = 2193;
+
+		// this.modulated.connect(this.filter.frequency.value);
 	}
 
 	set = (paramName, value) => {
