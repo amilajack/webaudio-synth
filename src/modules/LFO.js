@@ -52,7 +52,7 @@ export default class LFO {
 						let VCOs = this.modulatedItems['VCOs'];
 
 						Object.keys(VCOs).map(key => {
-							let port = VCOs[key].oscillators[value].modulated;
+							let port = VCOs[key].oscillators[value].modulated.gain;
 	
 							newPorts.push(port);
 						});
@@ -61,7 +61,7 @@ export default class LFO {
 					case 'filter':
 						let VCF = this.modulatedItems['VCF'];
 
-						let port = VCF.modulated;
+						let port = VCF.modulated; // multiplier gain inside
 
 						newPorts.push(port);
 						break;
@@ -71,10 +71,10 @@ export default class LFO {
 		});
 
 		// disconnect early ports
-		this.modulatedPorts.map(port => this.output.disconnect(port.gain));
+		this.modulatedPorts.map(port => this.output.disconnect(port));
 
 		// connect new
-		newPorts.map(port => this.output.connect(port.gain));
+		newPorts.map(port => this.output.connect(port));
 
 		this.modulatedPorts = newPorts;
 

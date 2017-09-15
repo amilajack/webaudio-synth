@@ -15,13 +15,21 @@ body
 		ul
 			opacity .4
 			pointer-events none
+	
+	&.on-visualizing
+		#synth
+			left 4.5vw
+			right unset
+		#keyboard
+			left 14vw
+			right unset
 
 
 #synth
 	position absolute
 	top 0
-	left 4vw
-	// right 0
+	left 0
+	right 0
 	bottom 0
 	margin auto
 	width 1120px
@@ -36,13 +44,17 @@ body
 	opacity 0
 	animation: fade-in .4s
 	animation-fill-mode forwards
-	box-shadow:
-		1px -0px rgb(127,255,255), 1px -1px rgb(192,255,255),
-		2px -1px rgb(126,254,254), 2px -2px rgb(191,254,254),
-		3px -2px rgb(125,253,253), 3px -3px rgb(190,253,253),
-		4px -3px rgb(124,252,252), 4px -4px rgb(189,252,252),
-		5px -4px rgb(123,251,251), 5px -5px rgb(188,251,251),
-		6px -5px rgb(122,250,250), 6px -6px rgb(187,250,250)
+	// box-shadow:
+	// 	1px -0px rgb(127,255,255), 1px -1px rgb(192,255,255),
+	// 	2px -1px rgb(126,254,254), 2px -2px rgb(191,254,254),
+	// 	3px -2px rgb(125,253,253), 3px -3px rgb(190,253,253),
+	// 	4px -3px rgb(124,252,252), 4px -4px rgb(189,252,252),
+	// 	5px -4px rgb(123,251,251), 5px -5px rgb(188,251,251),
+	// 	6px -5px rgb(122,250,250), 6px -6px rgb(187,250,250)
+	border-top 10px solid $color-primary
+	border-top-left-radius 20px
+	border-top-right-radius 20px
+	z-index 1
 
 	.module
 		position relative
@@ -219,6 +231,8 @@ input
 
 button
 input
+	border none
+	background transparent
 	&:focus
 		outline none
 		box-shadow: 0px 0px 2px $color-contrast
@@ -227,7 +241,105 @@ input
 
 //
 #keyboard
-	display none
+	position absolute !important
+	top 50%
+	left 0
+	right 0
+	margin auto !important
+	// display none
+	transform rotateX(45deg) translateY(300px)
+	z-index 0
+	ul
+		li
+			border-radius 5px !important
+			transition all .1s
+			// border: 1px solid $color-accent !important
+
+			// &[data-note-type='white']
+			// 	border-right initial !important
+			// 	background-color: transparent !important
+			// 	&:last-childaa
+			// 		border: 1px solid $color-accent !important
+			// &[data-note-type='black']
+			// 	border: 1px solid $color-accent !important
+			// 	background-color: $color-accent !important
+
+			// &:hover
+			// 	background-color: $color-contrast !important
+
+
+#options
+	position absolute
+	top 20px
+	left 20px
+	&>*
+		display inline-block
+		vertical-align middle
+	&.visible
+		#toggle-options
+			transform rotate(90deg)
+			opacity 1
+		ul
+			li
+				transform translateY(0%)
+				opacity .75
+				pointer-events all
+				&:nth-child(1)
+					transition transform .2s ease 0s, opacity .2s
+				&:nth-child(2)
+					transition transform .2s ease .1s, opacity .2s
+				&:nth-child(3)
+					transition transform .2s ease .2s, opacity .2s
+				&:nth-child(4)
+					transition transform .2s ease .3s, opacity .2s
+
+
+	#toggle-options
+		width 45px
+		height 45px
+		background-image url('/images/options.svg')
+		background-size 100%
+		background-position center
+		opacity .75
+		transition all .2s
+		cursor pointer
+		&:hover
+			opacity 1
+	
+	ul
+		padding-left 10px
+		li
+			display inline-block
+			width 35px
+			height 35px
+			margin 0 10px
+			background-size 100%
+			background-position center
+			cursor pointer
+			opacity 0
+			transform translateY(-100%)
+			user-select none
+			pointer-events none
+			&:hover
+				opacity 1
+
+			&[data-option='midi']
+				background-image url('/images/midi.svg')
+			&[data-option='keyboard']
+				background-image url('/images/keyboard.svg')
+			&[data-option='visualization']
+				background-image url('/images/visualization.svg')
+
+			&:nth-child(1)
+				transition transform .2s ease .3s, opacity .2s
+			&:nth-child(2)
+				transition transform .2s ease .2s, opacity .2s
+			&:nth-child(3)
+				transition transform .2s ease .1s, opacity .2s
+			&:nth-child(4)
+				transition transform .2s ease 0s, opacity .2s
+
+
 
 
 // animation

@@ -108,7 +108,7 @@ const controlItems = [
 		type: 'knob',
 		id: 'filter__freq',
 		options: {
-			min: 16,
+			min: 32,
 			max: 7902,
 			width: knobSize.big,
 			height: knobSize.big,
@@ -145,7 +145,8 @@ const controlItems = [
 		id: 'lfo__freq',
 		options: {
 			min: 0,
-			max: 200,
+			max: 30,
+			step: .1,
 			width: knobSize.big,
 			height: knobSize.big,
 			displayInput: true,

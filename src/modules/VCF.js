@@ -12,9 +12,9 @@ export default class VCF {
 		this.output = this.filter;
 
 		this.modulated = this.context.createGain();
-		// this.modulated.gain.value = 2193;
+		this.modulated.gain.value = 6000; // 6 * 100 cents => -6000..6000 (one octave)
 
-		// this.modulated.connect(this.filter.frequency.value);
+		this.modulated.connect(this.filter.detune);
 	}
 
 	set = (paramName, value) => {

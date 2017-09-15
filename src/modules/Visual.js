@@ -9,7 +9,6 @@ export default class Visual {
 
 		this.analyser = this.context.createAnalyser();
 		this.analyser.fftSize = 512;
-		this.analyser.smoothingTimeConstant = .9;
 		this.analyser.maxDecibels = 0;
 		this.bufferLength = this.analyser.frequencyBinCount;
 
@@ -77,7 +76,7 @@ export default class Visual {
 		const drawArcs = () => {
 
 			// create many arcs
-			for (let i = 0; i < this.bufferLength; i+=2) {
+			for (let i = 0; i < this.bufferLength; i++) {
 
 				ctx.beginPath();
 				ctx.arc(
@@ -97,35 +96,33 @@ export default class Visual {
 
 		};
 
+
+		let x;
+		let y;
+
 		const drawCurve = () => {
 
 			ctx.beginPath();
 
+			x = 0;
+			y = 0;
+
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = `${colors.accent}`;
 
-			let x = 0;
-			let y = 0;
+			ctx.moveTo(0, CENTER.y);
 
 			for (let i = 0; i < this.bufferLength; i++) {
 
-				y = ~~(sliceHeight * (this.timeDomainData[i] / 255) + CENTER.y - 50);
+				y = (sliceHeight * (this.timeDomainData[i] / 255) + CENTER.y - 50);
 
-				if (i === 0) {
-					ctx.moveTo(0, CENTER.y);
-
-				} else if (i === (this.bufferLength - 1)) {
-					ctx.moveTo(WIDTH, CENTER.y);
-					ctx.stroke();
-				}
-				else {
-					ctx.lineTo(x, y);
-				};
+				ctx.lineTo(x, y);
 
 				x += sliceWidth;
 			};
-			
-			// ctx.globalAlpha = .5;
+
+			ctx.moveTo(WIDTH, CENTER.y);
+			ctx.stroke();
 			
 		};
 
@@ -156,9 +153,7 @@ export default class Visual {
 		};
 
 
-		let once = 0;
-
-		const redraw = () => {
+		const render = () => {
 
 			this.analyser.getByteFrequencyData(this.frequencyData);
 			this.analyser.getByteTimeDomainData(this.timeDomainData);
@@ -170,9 +165,9 @@ export default class Visual {
 			drawCurve();
 			drawBars();
 
-			requestAnimationFrame(redraw);
+			requestAnimationFrame(render);
 		}
-		redraw();
+		render();
 
 	}
 

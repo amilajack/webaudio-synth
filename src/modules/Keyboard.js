@@ -1,3 +1,5 @@
+import { colors } from './_colors';
+
 import QwertyHancock from 'qwerty-hancock';
 
 
@@ -6,8 +8,8 @@ export default class Keyboard {
 		
 		this.defaultOptions = {
 			id: 'keyboard',
-			width: 600,
-			height: 150,
+			width: 900,
+			height: 70,
 			startNote: 'C3',
 			octaves: 2
 		};

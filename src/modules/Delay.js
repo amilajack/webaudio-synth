@@ -3,7 +3,7 @@ export default class Delay {
 	constructor(context) {
 
 		this.context = context;
-		this.delay = this.context.createDelay(5.0);
+		this.delay = this.context.createDelay(15.0);
 		this.feedback = this.context.createGain();
 		this.filter = this.context.createBiquadFilter();
 		this.filter.type = 'lowpass';
