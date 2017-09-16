@@ -254,6 +254,11 @@ const controlItems = [
 			height: knobSize.medium,
 			displayInput: true,
 		}
+	},
+
+	{
+		type: 'options',
+		id: 'options'
 	}
 ];
 

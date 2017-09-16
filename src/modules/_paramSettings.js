@@ -42,6 +42,12 @@ let defaultSettings = {
 		'lfo__out-1': 'osc2',
 		'lfo__out-3': 'filter',
 		'vca__out-2': 'osc1'
+	},
+
+	options: {
+		midi: false,
+		keyboard: true,
+		visualization: true
 	}
 
 };

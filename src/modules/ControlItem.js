@@ -3,6 +3,7 @@ import { defaultSettings as settings } from './_paramSettings';
 import Knob from './Knob';
 import List from './List';
 import Input from './Input';
+import Options from './Options';
 
 
 export default class ControlItem {
@@ -43,6 +44,12 @@ export default class ControlItem {
 					this.changeStoreParam
 				));
 				break;
+			case 'options':
+				this.controlsItems.push(new Options(
+					ctrl.id,
+					settings[ctrl.id],
+					this.changeStoreParam
+				));
 		};
 
 	}

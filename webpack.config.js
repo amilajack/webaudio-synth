@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = {
@@ -28,19 +29,22 @@ module.exports = {
                 ]
             },
             {
-                test: /\.styl$/,
-                use: [
-                    'style-loader',
-                    'css-loader?url=false',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            plugins: () => [require('autoprefixer')('last 2 versions')]
-                        }
-                    },
-                    'stylus-loader'
-                ]
-            }
+				test: /\.styl$/,
+				loader: ExtractTextPlugin.extract({
+                        fallback: 'style-loader',
+                        use: [
+                            'css-loader?url=false',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    plugins: () => [ require('autoprefixer')('last 2 versions') ]
+                                }
+                            },
+                            'stylus-loader'
+                        ]
+                    }   
+                )
+			}
         ]
     },
 
@@ -48,6 +52,9 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
+        }),
+        new ExtractTextPlugin({
+            filename: ('styles.css')
         })
     ],
 

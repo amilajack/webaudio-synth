@@ -7,7 +7,7 @@ Web Audio API Polyphonic synth
 * [Jquery Knob](https://github.com/aterrien/jQuery-Knob)
 
 
-![webaudio-synth app screenshot](https://image.ibb.co/b2713a/webaudio_synth.jpg)
+![webaudio-synth app screenshot](https://image.ibb.co/dqhVeQ/screen.jpg)
 
 
 
@@ -15,8 +15,8 @@ Web Audio API Polyphonic synth
 - [x] Polyphony
 - [x] Delay
 - [x] VCO wavetype select list
-- [ ] LFO
+- [x] LFO
 - [ ] ADSR
-- [ ] Canvas wires
-- [ ] Visualization
+- [x] Canvas wires
+- [x] Visualization
 - [ ] MIDI

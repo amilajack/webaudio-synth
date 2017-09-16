@@ -7,7 +7,7 @@
 	<title>WebAudio Synth</title>
 
 	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
-	<!-- <link rel='stylesheet' href='styles.css'> -->
+	<link rel='stylesheet' href='styles.css'>
 </head>
 <body>
 
@@ -144,11 +144,11 @@
 	<div id='keyboard'></div>
 
 	<div id="options">
-		<button id='toggle-options'></button>
+		<button class='toggle-options' title='options'></button>
 		<ul>
-			<li data-option='midi' title='enable MIDI'></li>
-			<li data-option='keyboard' title='show virtual keyboard'></li>
-			<li data-option='visualization' title='show sound visualization'></li>
+			<li data-option='midi' data-status='off' title='enable/disable MIDI'></li>
+			<li data-option='keyboard' data-status='on' title='show/hide virtual keyboard'></li>
+			<li data-option='visualization' data-status='on' title='show/hide audio visualization'></li>
 		</ul>
 	</div>
 
