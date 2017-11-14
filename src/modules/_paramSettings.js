@@ -1,3 +1,5 @@
+import { VENDOR } from './_helpers';
+
 
 let defaultSettings = {
 	// VCO
@@ -47,7 +49,7 @@ let defaultSettings = {
 	options: {
 		midi: false,
 		keyboard: true,
-		visualization: true
+		visualization: (VENDOR === 'any-chrome')
 	}
 
 };

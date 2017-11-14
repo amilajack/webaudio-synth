@@ -155,5 +155,7 @@ export default class Synth {
 		this.Visual.connect(this.context.destination);
 
 		console.log(this);
+
+		document.body.classList.add('loaded');
 	}
 }
