@@ -27,6 +27,15 @@ export default class Oscillator {
 
 		this.detune = 0;
 		this.offset = 0;
+
+
+		this.envelope = { // default
+			attack: 	.005,
+			decay: 		.1,
+			sustain: 	.6,
+			release: 	.1
+		};
+		this.easing = .006; // 6 msec easing
 	}
 
 	setFrequency = freq => {
@@ -48,7 +57,8 @@ export default class Oscillator {
 		this.offset = value * 100;
 		this.osc.detune.setValueAtTime((this.offset + this.detune), this.context.currentTime);
 	}
-		
+
+	setEnvelope = (paramName, value) => this.envelope[paramName] = value;	
 
 	connect = node => {
 		if (node.hasOwnProperty('input')) {
@@ -61,10 +71,21 @@ export default class Oscillator {
 	disconnect = () => this.output.disconnect();
 
 	play = () => {
-		this.gate.gain.linearRampToValueAtTime(1, this.context.currentTime + 0.005); // 5 msec
+		let now = this.context.currentTime;
+		 // shorthand
+		this.gate.gain.cancelScheduledValues(now);
+		this.gate.gain.setValueAtTime(0, now + this.easing);
+		this.gate.gain.linearRampToValueAtTime(1, now + this.envelope.attack + this.easing);
+		this.gate.gain.linearRampToValueAtTime(
+			this.envelope.sustain,
+			now + this.envelope.attack + this.envelope.decay + this.easing
+		);
 	}
+		 
 
 	stop = () => {
-		this.gate.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.005);
+		let now = this.context.currentTime;
+		this.gate.gain.cancelScheduledValues(now);
+		this.gate.gain.linearRampToValueAtTime(0, now + this.envelope.release + this.easing);
 	};
 };

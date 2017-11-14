@@ -1,7 +1,7 @@
 
 #keyboard
 	position absolute !important
-	top 50%
+	top calc(50% - 60px)
 	left 0
 	right 0
 	margin auto !important
@@ -10,7 +10,17 @@
 	animation-fill-mode forwards
 	transform rotateX(45deg) translateY(300px)
 	z-index 99
+
+	&[data-enabled='false']
+		ul
+			opacity 0
+	
+	&[data-enabled='true']
+		ul
+			opacity 1
+
 	ul
+		transition opacity .2s
 		li
 			border-radius 5px !important
 			transition all .1s

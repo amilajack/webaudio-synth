@@ -1,9 +1,9 @@
 
 const knobSize = {
-	small: 60,
-	medium: 90,
-	big: 130,
-	huge: 150
+	small: 40,
+	medium: 60,
+	big: 90,
+	huge: 110
 };
 
 
@@ -145,8 +145,8 @@ const controlItems = [
 		id: 'lfo__freq',
 		options: {
 			min: 0,
-			max: 30,
-			step: .1,
+			max: 20,
+			step: .05,
 			width: knobSize.big,
 			height: knobSize.big,
 			displayInput: true,
@@ -163,8 +163,8 @@ const controlItems = [
 		id: 'attack',
 		options: {
 			min: 0,
-			max: 10,
-			step: .1,
+			max: 4,
+			step: .01,
 			width: knobSize.medium,
 			height: knobSize.medium,
 			displayInput: true,
@@ -175,8 +175,8 @@ const controlItems = [
 		id: 'decay',
 		options: {
 			min: 0,
-			max: 10,
-			step: .1,
+			max: 4,
+			step: .01,
 			width: knobSize.medium,
 			height: knobSize.medium,
 			displayInput: true,
@@ -187,8 +187,8 @@ const controlItems = [
 		id: 'sustain',
 		options: {
 			min: 0,
-			max: 10,
-			step: .1,
+			max: 1,
+			step: .01,
 			width: knobSize.medium,
 			height: knobSize.medium,
 			displayInput: true,
@@ -199,8 +199,8 @@ const controlItems = [
 		id: 'release',
 		options: {
 			min: 0,
-			max: 10,
-			step: .1,
+			max: 8,
+			step: .01,
 			width: knobSize.medium,
 			height: knobSize.medium,
 			displayInput: true,
@@ -270,23 +270,23 @@ const modulationPorts = [
 		type: 'in',
 		pos: {
 			x: 30,
-			y: 450
+			y: 330
 		}
 	},
 	{
 		name: 'osc2',
 		type: 'in',
 		pos: {
-			x: 80,
-			y: 450
+			x: 70,
+			y: 330
 		}
 	},
 	{
 		name: 'osc3',
 		type: 'in',
 		pos: {
-			x: 130,
-			y: 450
+			x: 110,
+			y: 330
 		}
 	},
 
@@ -295,8 +295,8 @@ const modulationPorts = [
 		name: 'filter',
 		type: 'in',
 		pos: {
-			x: 420,
-			y: 225
+			x: 305,
+			y: 150
 		}
 	},
 
@@ -305,40 +305,40 @@ const modulationPorts = [
 		name: 'lfo__out-1',
 		type: 'out',
 		pos: {
-			x: 500,
-			y: 445,
+			x: 345,
+			y: 330,
 		}
 	},
 	{
 		name: 'lfo__out-2',
 		type: 'out',
 		pos: {
-			x: 530,
-			y: 445,
+			x: 375,
+			y: 330,
 		}
 	},
 	{
 		name: 'lfo__out-3',
 		type: 'out',
 		pos: {
-			x: 560,
-			y: 445,
+			x: 405,
+			y: 330,
 		}
 	},
 	{
 		name: 'lfo__out-4',
 		type: 'out',
 		pos: {
-			x: 590,
-			y: 445,
+			x: 435,
+			y: 330,
 		}
 	},
 	{
 		name: 'lfo__out-5',
 		type: 'out',
 		pos: {
-			x: 620,
-			y: 445,
+			x: 465,
+			y: 330,
 		}
 	},
 
@@ -347,40 +347,40 @@ const modulationPorts = [
 		name: 'vca__out-1',
 		type: 'out',
 		pos: {
-			x: 700,
-			y: 445,
+			x: 510,
+			y: 330,
 		}
 	},
 	{
 		name: 'vca__out-2',
 		type: 'out',
 		pos: {
-			x: 730,
-			y: 445,
+			x: 540,
+			y: 330,
 		}
 	},
 	{
 		name: 'vca__out-3',
 		type: 'out',
 		pos: {
-			x: 760,
-			y: 445,
+			x: 570,
+			y: 330,
 		}
 	},
 	{
 		name: 'vca__out-4',
 		type: 'out',
 		pos: {
-			x: 790,
-			y: 445,
+			x: 600,
+			y: 330,
 		}
 	},
 	{
 		name: 'vca__out-5',
 		type: 'out',
 		pos: {
-			x: 820,
-			y: 445,
+			x: 630,
+			y: 330,
 		}
 	}
 ];

@@ -86,6 +86,10 @@ export default class Synth {
 			
 			(note, freq) => this.VCOs[note].stop() // 'keyUp' event callback -> stop oscillators
 		);
+		this.store.subscribe(
+			'options',
+			() => this.keyboard.set('enabled', this.store.settings.options.keyboard)
+		);
 
 
 		// creating LFO modulator
@@ -106,15 +110,21 @@ export default class Synth {
 		);
 
 
-
 		// creating VCA (ADSR) modulator
-		this.VCA = new VCA(this.context);
+		this.VCA = new VCA(
+			this.context,
+			{ VCOs: this.VCOs, VCF: this.VCF }
+		);
 		['attack', 'decay', 'sustain', 'release'].map(paramName => {
 			this.store.subscribe(
 				`${paramName}`,
 				() => this.VCA.set(paramName, this.store.settings[`${paramName}`])
 			)
 		});
+		this.store.subscribe(
+			'modulation',
+			() => this.VCA.set('modulation', this.store.settings['modulation'])
+		);
 
 
 		// creating delay
@@ -136,6 +146,10 @@ export default class Synth {
 
 		// creating visualization
 		this.Visual = new Visual(this.context);
+		this.store.subscribe(
+			'options',
+			() => this.Visual.set('visible', this.store.settings.options.visualization)
+		);
 
 	
 		this.init();

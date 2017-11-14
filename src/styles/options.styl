@@ -1,8 +1,8 @@
 
 #options
 	position absolute
-	top 20px
-	left 20px
+	top 15px
+	left 15px
 	opacity 0
 	animation-duration .4s
 	animation-fill-mode forwards
@@ -32,11 +32,12 @@
 
 
 	.toggle-options
-		width 50px
-		height 50px
+		width 35px
+		height 35px
 		background-image url('./images/options.svg')
 		background-size 100%
 		background-position center
+		background-repeat no-repeat
 		opacity .75
 		transition all .2s
 		cursor pointer
@@ -47,8 +48,8 @@
 		padding-left 10px
 		li
 			display inline-block
-			width 40px
-			height 40px
+			width 30px
+			height 30px
 			margin 0 10px
 			background-size 100%
 			background-position center
@@ -62,7 +63,7 @@
 				opacity 1
 
 			&[data-option='midi']
-				background-image url('./images/midi.svg')
+				display none
 			&[data-option='keyboard']
 				background-image url('./images/keyboard.svg')
 			&[data-option='visualization']
@@ -83,10 +84,18 @@
 				position absolute
 				right -15px
 				bottom -5px
-				font-size 12px
+				font-size 9px
 				letter-spacing 1px
 				text-transform uppercase
 				background-color: $color-accent
 				color #222
 				padding 0 2px
 				border-radius 4px
+
+
+.any-chrome
+	#options
+		ul
+			li[data-option='midi']
+				display inline-block
+				background-image url('./images/midi.svg')

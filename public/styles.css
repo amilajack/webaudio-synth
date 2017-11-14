@@ -16,7 +16,8 @@ ul {
   padding: 0;
   margin: 0;
 }
-input {
+input,
+div {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -37,14 +38,6 @@ body.on-wires-drawing ul {
 body.on-wires-drawing #keyboard {
   z-index: 0;
 }
-body.on-visualizing #synth {
-  left: 4.5vw;
-  right: unset;
-}
-body.on-visualizing #keyboard {
-  left: 14vw;
-  right: unset;
-}
 body.loaded #synth,
 body.loaded #keyboard,
 body.loaded #options {
@@ -58,8 +51,8 @@ body.loaded #options {
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 1120px;
-  height: 475px;
+  width: 825px;
+  height: 360px;
   padding: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -101,6 +94,7 @@ body.loaded #options {
       -ms-flex-align: center;
           align-items: center;
   margin-right: 5px;
+  padding: 20px 0;
   border-right: 1px solid #c0ffff;
   justify-content: center;
 }
@@ -147,6 +141,7 @@ body.loaded #options {
   left: 0;
   right: 0;
   margin: auto;
+  font-size: 1.1em;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 5px;
@@ -172,7 +167,7 @@ body.loaded #options {
   right: 0;
   bottom: -5px;
   margin: auto;
-  font-size: 17px;
+  font-size: 12px;
   text-align: center;
   text-shadow: 1px 1px 0px #111;
   letter-spacing: 1px;
@@ -250,6 +245,9 @@ body.loaded #options {
       -ms-user-select: none;
           user-select: none;
 }
+#synth .module .knob-group .knob-wrapper[data-label='fback'] {
+  margin-right: 10px;
+}
 #synth .module .knob-group ul {
   position: absolute;
   top: 10px;
@@ -288,7 +286,7 @@ body.loaded #options {
   opacity: 1;
 }
 #synth input {
-  width: 40px;
+  width: 30px;
   cursor: pointer;
   font-family: 'Orbitron', sans-serif;
   color: #c0ffff;
@@ -318,9 +316,16 @@ canvas#visual {
   right: 0;
   margin: auto;
 }
+#visual {
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+#visual[data-visible='false'] {
+  opacity: 0;
+}
 #keyboard {
   position: absolute !important;
-  top: 50%;
+  top: calc(50% - 60px);
   left: 0;
   right: 0;
   margin: auto !important;
@@ -333,6 +338,16 @@ canvas#visual {
           transform: rotateX(45deg) translateY(300px);
   z-index: 99;
 }
+#keyboard[data-enabled='false'] ul {
+  opacity: 0;
+}
+#keyboard[data-enabled='true'] ul {
+  opacity: 1;
+}
+#keyboard ul {
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
 #keyboard ul li {
   border-radius: 5px !important;
   -webkit-transition: all 0.1s;
@@ -340,8 +355,8 @@ canvas#visual {
 }
 #options {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 15px;
+  left: 15px;
   opacity: 0;
   -webkit-animation-duration: 0.4s;
           animation-duration: 0.4s;
@@ -391,11 +406,12 @@ canvas#visual {
   opacity: 1;
 }
 #options .toggle-options {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   background-image: url("./images/options.svg");
   background-size: 100%;
   background-position: center;
+  background-repeat: no-repeat;
   opacity: 0.75;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
@@ -409,8 +425,8 @@ canvas#visual {
 }
 #options ul li {
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   margin: 0 10px;
   background-size: 100%;
   background-position: center;
@@ -429,7 +445,7 @@ canvas#visual {
   opacity: 1;
 }
 #options ul li[data-option='midi'] {
-  background-image: url("./images/midi.svg");
+  display: none;
 }
 #options ul li[data-option='keyboard'] {
   background-image: url("./images/keyboard.svg");
@@ -466,13 +482,17 @@ canvas#visual {
   position: absolute;
   right: -15px;
   bottom: -5px;
-  font-size: 12px;
+  font-size: 9px;
   letter-spacing: 1px;
   text-transform: uppercase;
   background-color: #a0ffff;
   color: #222;
   padding: 0 2px;
   border-radius: 4px;
+}
+.any-chrome #options ul li[data-option='midi'] {
+  display: inline-block;
+  background-image: url("./images/midi.svg");
 }
 @-webkit-keyframes fade-in {
   0% {

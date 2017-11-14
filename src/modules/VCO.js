@@ -54,6 +54,13 @@ export default class VCO {
 				break;
 			case 'offset':
 				this.oscillators[oscName].setOffset(value);
+				break;
+			case 'attack':
+			case 'decay':
+			case 'sustain':
+			case 'release':
+				this.oscillators[oscName].setEnvelope(paramName, value);
+				break;
 		}
 
 	}

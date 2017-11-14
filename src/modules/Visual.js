@@ -1,5 +1,6 @@
 import { colors } from './_colors';
 import { getRandom, convertColor } from './_helpers';
+import { defaultSettings as settings } from './_paramSettings';
 
 
 export default class Visual {
@@ -152,23 +153,31 @@ export default class Visual {
 
 		};
 
-
-		const render = () => {
-
-			this.analyser.getByteFrequencyData(this.frequencyData);
-			this.analyser.getByteTimeDomainData(this.timeDomainData);
+		this.render = () => {
 
 			// clear previous drawings
 			ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+			this.analyser.getByteFrequencyData(this.frequencyData);
+			this.analyser.getByteTimeDomainData(this.timeDomainData);
 
 			drawArcs();
 			drawCurve();
 			drawBars();
 
-			requestAnimationFrame(render);
+			this.requestAnimID = requestAnimationFrame(this.render);
 		}
-		render();
 
+	}
+
+	set = (paramName, value) => {
+		if (value) {
+			this.render();
+			document.getElementById('visual').dataset['visible'] = true;
+			return;
+		};
+		cancelAnimationFrame(this.requestAnimID);
+		document.getElementById('visual').dataset['visible'] = false;
 	}
 
 	connect = node => {

@@ -85,7 +85,7 @@ export default class Wires {
 				this.canvas.drawCircle(
 					port.pos.x,
 					port.pos.y,
-					5,
+					4,
 					portOpacity
 				);
 			});

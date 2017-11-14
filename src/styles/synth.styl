@@ -6,8 +6,8 @@
 	right 0
 	bottom 0
 	margin auto
-	width 1120px
-	height 475px
+	width 825px
+	height 360px
 	padding 5px
 	display flex
 	justify-content flex-start
@@ -38,6 +38,7 @@
 		justify-content center
 		align-items center
 		margin-right 5px
+		padding 20px 0
 		border-right: 1px solid $color-primary
 		justify-content center
 		&:last-of-type
@@ -76,6 +77,7 @@
 			left 0
 			right 0
 			margin auto
+			font-size 1.1em
 			text-align center
 			text-transform uppercase
 			letter-spacing 5px
@@ -95,7 +97,7 @@
 				right 0
 				bottom -5px
 				margin auto
-				font-size 17px
+				font-size 12px
 				text-align center
 				text-shadow 1px 1px 0px #111
 				letter-spacing 1px
@@ -145,6 +147,8 @@
 				flex 1 0 45%
 				align-self flex-end
 				user-select none
+				&[data-label='fback']
+					margin-right 10px
 
 			// wavetype select list
 			ul
@@ -179,7 +183,7 @@
 
 
 	input
-		width 40px
+		width 30px
 		cursor pointer
 		font-family: $font-family-default
 		color: $color-primary

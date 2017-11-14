@@ -19,6 +19,8 @@
 - [x] LFO
 - [x] Canvas wires
 - [x] Visualization
-- [ ] Options
-- [ ] ADSR
+- [x] Options
+- [x] ADSR
+- [ ] ADSR -> VCF
+- [ ] ADSR -> LFO (!)
 - [ ] MIDI

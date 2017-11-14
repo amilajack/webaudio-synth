@@ -28,10 +28,10 @@ let defaultSettings = {
 	'lfo__wavetype': 'sine',
 
 	// VCA
-	'attack': 	0,
-	'decay': 	0,
-	'sustain': 	0,
-	'release': 	0,
+	'attack': 	.05,
+	'decay': 	.1,
+	'sustain': 	.6,
+	'release': 	.1,
 
 	// Delay
 	'delay__gain':		.2,

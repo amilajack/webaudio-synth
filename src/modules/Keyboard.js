@@ -8,8 +8,8 @@ export default class Keyboard {
 		
 		this.defaultOptions = {
 			id: 'keyboard',
-			width: 900,
-			height: 70,
+			width: 664,
+			height: 72,
 			startNote: 'C3',
 			octaves: 2
 		};
@@ -35,5 +35,19 @@ export default class Keyboard {
 	
 	handleKeyUp = (note, freq) => {
 		this.keyUpCallback(note, freq);
+	}
+
+	set = (paramName, value) => {
+		if (value) {
+			this.keyboard.keyDown = (note, freq) => this.handleKeyDown(note, freq);
+			this.keyboard.keyUp = (note, freq) => this.handleKeyUp(note, freq);
+
+			document.getElementById('keyboard').dataset['enabled'] = true;
+			return;
+		};
+		this.keyboard.keyDown = (note, freq) => {};
+		this.keyboard.keyUp = (note, freq) => {};
+
+		document.getElementById('keyboard').dataset['enabled'] = false;
 	}
 }
