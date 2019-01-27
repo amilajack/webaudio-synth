@@ -350,8 +350,6 @@ canvas#visual {
 }
 #keyboard ul li {
   border-radius: 5px !important;
-  -webkit-transition: all 0.1s;
-  transition: all 0.1s;
 }
 #options {
   position: absolute;
@@ -487,12 +485,13 @@ canvas#visual {
   text-transform: uppercase;
   background-color: #a0ffff;
   color: #222;
-  padding: 0 2px;
+  padding: 2px 4px;
   border-radius: 4px;
 }
 .any-chrome #options ul li[data-option='midi'] {
   display: inline-block;
   background-image: url("./images/midi.svg");
+  pointer-events: none;
 }
 @-webkit-keyframes fade-in {
   0% {
@@ -514,13 +513,14 @@ button,
 input {
   border: none;
   background: transparent;
-}
-button:focus,
-input:focus {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   outline: none;
-  -webkit-box-shadow: 0px 0px 2px #ff6e19;
-          box-shadow: 0px 0px 2px #ff6e19;
-  border-radius: 2px;
+}
+input {
+  pointer-events: none;
 }
 
 /*# sourceMappingURL=styles.css.map*/
