@@ -28,49 +28,51 @@ export default class Visual {
 
 		const ctx = this.canvas.getContext('2d');
 
-		let WIDTH;
-		let HEIGHT;
-		let CENTER = {};
+		let WIDTH
+		let HEIGHT
+		let CENTER = {}
 
-		let sliceWidth;
-		let sliceHeight;
+		let sliceWidth
+		let sliceHeight
+		let offsetY
 
 		const getViewportSize = () => {
-			WIDTH = window.innerWidth;
-			HEIGHT = window.innerHeight;
+			WIDTH = window.innerWidth
+			HEIGHT = window.innerHeight
 			CENTER = {
 				x: WIDTH / 2,
-				y: HEIGHT / 2
-			};
+				y: HEIGHT / 2,
+			}
 
-			this.canvas.width = WIDTH;
-			this.canvas.height = HEIGHT;
+			this.canvas.width = WIDTH
+			this.canvas.height = HEIGHT
 
-			sliceWidth = WIDTH / this.bufferLength;
-			sliceHeight = ~~(HEIGHT / 8);
+			sliceWidth = Math.round(WIDTH / this.bufferLength)
+			sliceHeight = Math.round(HEIGHT / 8)
+			offsetY = CENTER.y - sliceHeight / 2
 		};
-		getViewportSize();
+		getViewportSize()
 
 		this.colors = {
 			accent: convertColor(colors.accent).toDec(),
-			contrast: convertColor(colors.contrast).toDec()
-		};
+			contrast: convertColor(colors.contrast).toDec(),
+		}
 
-		window.addEventListener('resize', () => getViewportSize());
+		window.addEventListener('resize', () => getViewportSize())
 
 
-		const circleRadius = (HEIGHT);
+		const circleRadius = (HEIGHT)
 
 		// create arcs angles
-		let circleAngle = [];
+		let circleAngle = []
 
 		for (let i = 0; i <= this.analyser.frequencyBinCount; i++) {
 			let newCircleParams = {
 				startAngle: getRandom(-2 * Math.PI, 2 * Math.PI),
-				endAngle: getRandom(-2 * Math.PI, 2 * Math.PI)
+				endAngle: getRandom(-2 * Math.PI, 2 * Math.PI),
 			}
-			circleAngle.push(newCircleParams);
-		};
+			circleAngle.push(newCircleParams)
+		}
 
 
 		// draw functions
@@ -98,34 +100,34 @@ export default class Visual {
 		};
 
 
-		let x;
-		let y;
+		let x
+		let y
 
 		const drawCurve = () => {
 
-			ctx.beginPath();
+			ctx.beginPath()
 
-			x = 0;
-			y = 0;
+			x = 0
+			y = 0
 
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = `${colors.accent}`;
+			ctx.lineWidth = 1
+			ctx.strokeStyle = `${colors.accent}`
 
-			ctx.moveTo(0, CENTER.y);
+			ctx.moveTo(0, CENTER.y)
 
 			for (let i = 0; i < this.bufferLength; i++) {
 
-				y = (sliceHeight * (this.timeDomainData[i] / 255) + CENTER.y - 50);
+				y = (sliceHeight * (this.timeDomainData[i] / 255) + offsetY)
 
-				ctx.lineTo(x, y);
+				ctx.lineTo(x, y)
 
-				x += sliceWidth;
-			};
+				x += sliceWidth
+			}
 
-			ctx.moveTo(WIDTH, CENTER.y);
-			ctx.stroke();
+			ctx.moveTo(WIDTH, CENTER.y)
+			ctx.stroke()
 			
-		};
+		}
 
 
 		const drawBars = () => {

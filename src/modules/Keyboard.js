@@ -5,13 +5,17 @@ import QwertyHancock from 'qwerty-hancock';
 
 export default class Keyboard {
 	constructor(options, keyDownCallback, keyUpCallback) {
-		
+
 		this.defaultOptions = {
 			id: 'keyboard',
 			width: 664,
 			height: 72,
 			startNote: 'C3',
-			octaves: 2
+			octaves: 2,
+			whiteKeyColour: 'rgba(38, 39, 47, 0.85)',
+			blackKeyColour: '#A0FFFF',
+			borderColour: '#A0FFFF',
+			activeColour: '#FF6E19',
 		};
 
 		this.options = Object.assign({}, this.defaultOptions, options);

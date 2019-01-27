@@ -1,7 +1,9 @@
-import './styles/main.styl';
+import './styles/main.styl'
 
-import Synth from './modules/Synth';
-import Wires from './modules/Wires';
+import Synth from './modules/Synth'
+import Wires from './modules/Wires'
 
 
-const synth = new Synth();
+const synth = new Synth()
+
+console.log(synth)

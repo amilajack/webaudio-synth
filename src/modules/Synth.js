@@ -20,6 +20,17 @@ export default class Synth {
 		try {
 			window.AudioContext = window.AudioContext || window.webkitAudioContext;
 			this.context = new AudioContext();
+
+			let resumeAudio = () => {
+				if (this.context.state !== 'suspended') return
+
+				this.context.resume().then(() => {
+					console.log('Playback resumed successfully')
+				})
+			}
+
+			document.body.addEventListener('mousedown', resumeAudio)
+			document.body.addEventListener('keypress', resumeAudio)
 		}
 		catch (e) {
 			alert('Web Audio API is not supported in this browser');
@@ -167,8 +178,6 @@ export default class Synth {
 		this.Delay.connect(this.overallGain);
 		this.overallGain.connect(this.Visual.input);
 		this.Visual.connect(this.context.destination);
-
-		console.log(this);
 
 		document.body.classList.add('loaded');
 	}
