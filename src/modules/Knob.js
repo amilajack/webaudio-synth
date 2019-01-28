@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import knob from 'jquery-knob';
 import { colors } from './_colors';
 

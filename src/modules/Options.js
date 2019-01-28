@@ -1,3 +1,4 @@
+import Store from './Store';
 
 export default class Options {
 	constructor(id, defaultParams, callback) {
@@ -25,6 +26,10 @@ export default class Options {
 		this.optionsDOM = this.container.getElementsByTagName('li');
 
 		[...this.optionsDOM].map(el => {
+
+			// toggle initial params
+			el.dataset.status = (this.params[el.dataset.option] ? 'on' : 'off')
+
 			el.addEventListener('click', () => {
 				this.params[el.dataset.option] = !this.params[el.dataset.option];
 
@@ -37,6 +42,8 @@ export default class Options {
 	}
 
 	updateDOM = () => {
+		console.log(this.params);
+
 		[...this.optionsDOM].map(el => {
 			el.dataset.status = (this.params[el.dataset.option] ? 'on' : 'off');
 		});

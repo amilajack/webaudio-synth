@@ -34,7 +34,7 @@
 	.toggle-options
 		width 35px
 		height 35px
-		background-image url('./images/options.svg')
+		background-image url('../images/options.svg')
 		background-size 100%
 		background-position center
 		background-repeat no-repeat
@@ -59,15 +59,15 @@
 			transform translateY(-100%)
 			user-select none
 			pointer-events none
-			&:hover
-				opacity 1
+			// &:hover
+			// 	opacity 1
 
 			&[data-option='midi']
 				display none
 			&[data-option='keyboard']
-				background-image url('./images/keyboard.svg')
+				background-image url('../images/keyboard.svg')
 			&[data-option='visualization']
-				background-image url('./images/view.svg')
+				background-image url('../images/view.svg')
 
 
 			&:nth-child(1)
@@ -98,5 +98,5 @@
 		ul
 			li[data-option='midi']
 				display inline-block
-				background-image url('./images/midi.svg')
+				background-image url('../images/midi.svg')
 				pointer-events: none // not done yet

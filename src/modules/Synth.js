@@ -1,3 +1,5 @@
+import { AudioContext as sAudioContext } from 'standardized-audio-context';
+
 import Store from './Store';
 import VCO from './VCO';
 import VCF from './VCF';
@@ -18,8 +20,9 @@ export default class Synth {
 	constructor() {
 
 		try {
-			window.AudioContext = window.AudioContext || window.webkitAudioContext;
-			this.context = new AudioContext();
+			this.context = window.webkitAudioContext
+				? new sAudioContext()
+				: new AudioContext()
 
 			let resumeAudio = () => {
 				if (this.context.state !== 'suspended') return
@@ -30,7 +33,7 @@ export default class Synth {
 			}
 
 			document.body.addEventListener('mousedown', resumeAudio)
-			document.body.addEventListener('keypress', resumeAudio)
+			document.body.addEventListener('keydown', resumeAudio)
 		}
 		catch (e) {
 			alert('Web Audio API is not supported in this browser');
