@@ -42,7 +42,7 @@ export default class Options {
 	}
 
 	updateDOM = () => {
-		console.log(this.params);
+		// console.log(this.params);
 
 		[...this.optionsDOM].map(el => {
 			el.dataset.status = (this.params[el.dataset.option] ? 'on' : 'off');

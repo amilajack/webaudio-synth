@@ -1,15 +1,15 @@
 import { AudioContext as sAudioContext } from 'standardized-audio-context';
 
-import Store from './Store';
-import VCO from './VCO';
-import VCF from './VCF';
-import LFO from './LFO';
-import VCA from './VCA';
-import Delay from './Delay';
-import Keyboard from './Keyboard';
-import ControlItem from './ControlItem';
-import Wires from './Wires';
-import Visual from './Visual';
+import Store from './Store'
+import VCO from './VCO'
+import VCF from './VCF'
+import LFO from './LFO'
+import VCA from './VCA'
+import Delay from './Delay'
+import Keyboard from './Keyboard'
+import ControlItem from './ControlItem'
+import Wires from './Wires'
+import Visual from './Visual'
 
 import { controlItems } from './_interfaceSettings';
 import { defaultSettings as settings } from './_paramSettings';
@@ -147,15 +147,15 @@ export default class Synth {
 		this.Wires = new Wires(
 			this.store.settings.modulation, // default params
 			this.store.changeParam
-		);
+		)
 
 
 		// creating visualization
-		this.Visual = new Visual(this.context);
+		this.Visual = new Visual(this.context)
 		this.store.subscribe(
 			'options',
 			() => this.Visual.set('visible', this.store.settings.options.visualization)
-		);
+		)
 
 	
 		this.init()

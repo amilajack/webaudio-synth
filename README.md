@@ -23,4 +23,4 @@
 - [x] ADSR
 - [ ] ADSR -> VCF
 - [ ] ADSR -> LFO (!)
-- [ ] MIDI
+- [x] MIDI

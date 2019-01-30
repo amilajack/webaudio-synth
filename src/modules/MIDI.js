@@ -3,6 +3,7 @@ import notes from './_notes'
 export default class MIDI {
 	constructor(synth) {
 		this.synth = synth
+		this.enable = false
 
 		this.init()
 	}
@@ -29,7 +30,13 @@ export default class MIDI {
 		}
 	}
 
+	set(value) {
+		this.enable = value
+	}
+
 	getMessage = message => {
+		if (!this.enable) return
+
 		let command = message.data[0]
 		let note = notes[ message.data[1] ]
 		let velocity = (message.data.length > 2) ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
