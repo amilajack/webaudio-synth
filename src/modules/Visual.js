@@ -174,12 +174,13 @@ export default class Visual {
 
 	set = (paramName, value) => {
 		if (value) {
-			this.render();
-			document.getElementById('visual').dataset['visible'] = true;
-			return;
-		};
+			this.render()
+			document.getElementById('visual').dataset['visible'] = true
+			return
+		}
+
 		cancelAnimationFrame(this.requestAnimID);
-		document.getElementById('visual').dataset['visible'] = false;
+		document.getElementById('visual').dataset['visible'] = false
 	}
 
 	connect = node => {

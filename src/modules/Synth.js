@@ -13,7 +13,7 @@ import Visual from './Visual';
 
 import { controlItems } from './_interfaceSettings';
 import { defaultSettings as settings } from './_paramSettings';
-import { notes } from './_notes';
+import notes from './_notes';
 
 
 export default class Synth {
@@ -24,16 +24,8 @@ export default class Synth {
 				? new sAudioContext()
 				: new AudioContext()
 
-			let resumeAudio = () => {
-				if (this.context.state !== 'suspended') return
-
-				this.context.resume().then(() => {
-					console.log('Playback resumed successfully')
-				})
-			}
-
-			document.body.addEventListener('mousedown', resumeAudio)
-			document.body.addEventListener('keydown', resumeAudio)
+			document.body.addEventListener('mousedown', this.resumeAudio)
+			document.body.addEventListener('keydown', this.resumeAudio)
 		}
 		catch (e) {
 			alert('Web Audio API is not supported in this browser');
@@ -67,11 +59,11 @@ export default class Synth {
 		});
 
 
-		this.VCOs = {};
-		notes.map(note => {
+		this.VCOs = {}
+		Object.entries(notes).map(([ n, note ]) => {
 
-			let newVCO = new VCO(this.context, note, this.VCF);
-			
+			let newVCO = new VCO(this.context, note.name, this.VCF)
+
 			// creating osclillators for every key(note)
 			// and binding it with settings store
 			Object.keys(newVCO.oscillators).forEach(oscName => {
@@ -84,21 +76,21 @@ export default class Synth {
 							this.store.settings[`${oscName}__${paramName}`]
 						)
 					)
-				});
-			});
+				})
+			})
 
 			this.VCOs = Object.assign({}, this.VCOs, {
-				[note]: newVCO
-			});
-		});
+				[note.name]: newVCO
+			})
+		})
 
 		// creating keyboard and bindings
 		this.keyboard = new Keyboard(
 			{ id: 'keyboard', startNote: 'C3' },
 	
-			(note, freq) => this.VCOs[note].play(freq), // 'keyPressed' event callback
+			(note, freq) => this.play(note, freq), // 'keyPressed' event callback
 			
-			(note, freq) => this.VCOs[note].stop() // 'keyUp' event callback -> stop oscillators
+			(note, freq) => this.stop(note) // 'keyUp' event callback -> stop oscillators
 		);
 		this.store.subscribe(
 			'options',
@@ -166,22 +158,33 @@ export default class Synth {
 		);
 
 	
-		this.init();
+		this.init()
 	}
-
 
 	init = () => {
 
-		this.overallGain = this.context.createGain();
-		this.overallGain.gain.value = .5;
+		this.overallGain = this.context.createGain()
+		this.overallGain.gain.value = .5
 
 		// connections
-		this.VCF.connect(this.Delay);
-		this.VCF.connect(this.overallGain);
-		this.Delay.connect(this.overallGain);
-		this.overallGain.connect(this.Visual.input);
-		this.Visual.connect(this.context.destination);
+		this.VCF.connect(this.Delay)
+		this.VCF.connect(this.overallGain)
+		this.Delay.connect(this.overallGain)
+		this.overallGain.connect(this.Visual.input)
+		this.Visual.connect(this.context.destination)
 
-		document.body.classList.add('loaded');
+		document.body.classList.add('loaded')
+	}
+
+	play = (note, freq, velocity) => this.VCOs[note].play(freq, velocity)
+
+	stop = note => this.VCOs[note].stop()
+
+	resumeAudio = () => {
+		if (this.context.state !== 'suspended') return
+
+		this.context.resume().then(() => {
+			console.log('Playback resumed successfully')
+		})
 	}
 }

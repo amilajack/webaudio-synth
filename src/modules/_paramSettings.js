@@ -1,5 +1,4 @@
-import { VENDOR } from './_helpers';
-
+import { VENDOR } from './_helpers'
 
 let defaultSettings = {
 	// VCO
@@ -47,12 +46,11 @@ let defaultSettings = {
 	},
 
 	options: {
-		midi: false,
+		midi: !!navigator.requestMIDIAccess,
 		keyboard: true,
 		visualization: (VENDOR === 'any-chrome')
 	}
 
-};
+}
 
-
-export { defaultSettings };
+export { defaultSettings }

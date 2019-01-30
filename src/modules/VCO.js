@@ -4,12 +4,15 @@ import Oscillator from './Oscillator';
 export default class VCO {
 	constructor(context, noteBind, outputNode) {
 
-		this.context = context;
-		this.noteBind = noteBind;
-		this.outputNode = outputNode;
-		this.oscillators = {};
+		this.context = context
+		this.noteBind = noteBind
+		this.outputNode = outputNode
+		this.oscillators = {}
 
-		this.init();
+		this.velocity = this.context.createGain()
+		this.velocity.connect(this.outputNode.input)
+
+		this.init()
 	}
 
 	init = () => {
@@ -25,14 +28,14 @@ export default class VCO {
 
 	connect = () => {
 		for (let osc in this.oscillators) {
-			this.oscillators[osc].connect(this.outputNode);
-		};
+			this.oscillators[osc].connect(this.velocity)
+		}
 	}
 
 	disconnect = () => {
 		for (let osc in this.oscillators) {
-			this.oscillators[osc].disconnect();
-		};
+			this.oscillators[osc].disconnect()
+		}
 	}
 
 	set = (oscName, paramName, value) => {
@@ -55,6 +58,9 @@ export default class VCO {
 			case 'offset':
 				this.oscillators[oscName].setOffset(value);
 				break;
+			case 'velocity':
+				this.velocity.gain.value = value / 128;
+				break;
 			case 'attack':
 			case 'decay':
 			case 'sustain':
@@ -65,9 +71,10 @@ export default class VCO {
 
 	}
 
-	play = (freq) => {
+	play = (freq, velocity = 128) => {
 		this.set(null, 'frequency', freq);
 		for (let osc in this.oscillators) {
+			this.set(null, 'velocity', velocity)
 			this.oscillators[osc].play();
 		};
 	};
