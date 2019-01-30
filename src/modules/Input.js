@@ -7,6 +7,7 @@ export default class Input {
 		this.callback = callback;
 
 		this.inputDOM = document.querySelector(`#${this.id} input`);
+		this.inputDOM.value = this.value
 
 
 		this.min = this.inputDOM.getAttribute('min') || -12;

@@ -7,6 +7,8 @@ export default class Store {
 		// only settings structure
 		this.subscribers = {};
 
+		// saving
+		window.setInterval(this.save, 5000)
 	}
 
 	subscribe = (paramName, callback) => {
@@ -40,5 +42,9 @@ export default class Store {
 
 		// console.log(this.settings);
 
+	}
+
+	save = () => {
+		localStorage.setItem('synthSettings', JSON.stringify(this.settings))
 	}
 }
